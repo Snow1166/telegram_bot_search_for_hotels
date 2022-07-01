@@ -37,10 +37,4 @@ def get_locations_list(message):
     return locations
 
 
-def city_markup(message):
-    """Создаем и возвращаем кнопки для точного определения города"""
-    cities = get_locations_list(message)
-    destinations = types.InlineKeyboardMarkup()
-    for city in cities:
-        destinations.add(types.InlineKeyboardButton(text=city, callback_data='id_loc' + cities[city]))
-    return destinations
+
