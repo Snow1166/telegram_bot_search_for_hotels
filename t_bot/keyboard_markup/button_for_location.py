@@ -7,5 +7,5 @@ def city_markup(message):
     cities = get_locations_list(message)
     destinations = types.InlineKeyboardMarkup()
     for city in cities:
-        destinations.add(types.InlineKeyboardButton(text=city, callback_data='id_loc' + cities[city]))
+        destinations.add(types.InlineKeyboardButton(text=city, callback_data=f'id_loc{cities[city]}'))
     return destinations
