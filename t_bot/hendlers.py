@@ -1,8 +1,8 @@
 from config import bot, user_dict
 from database.state import StateUser
 from database.users import User
-
-from t_bot.keyboard_markup.button_for_location import city_markup, photo_choice
+from t_bot.keyboard_markup.button_for_photo import photo_choice
+from t_bot.keyboard_markup.button_for_location import city_markup
 
 
 @bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
@@ -51,10 +51,3 @@ def get_checkOut(message):
     bot.set_state(message.from_user.id, StateUser.photo_hotel, message.chat.id)
     button = photo_choice()
     bot.send_message(message.from_user.id, 'Вы хотите посмотреть фотографии отелей?', reply_markup=button)
-
-
-@bot.message_handler(state=StateUser.total_photos)
-def get_checkOut(message):
-    print(user_dict[message.chat.id].get_querystring_bestdeal())
-    StateUser.distance = message.text
-    bot.set_state(message.from_user.id, StateUser.command, message.chat.id)
