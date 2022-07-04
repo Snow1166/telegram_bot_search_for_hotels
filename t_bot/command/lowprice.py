@@ -1,31 +1,24 @@
-from config import bot
-from database.user import User
-from t_bot.keyboard_markup.button_for_location import city_markup
 
 
-@bot.message_handler(commands=['lowprice'])
-def command_lowprice(message):
-    bot.set_state(message.from_user.id, User.destinationId, message.chat.id)
-    bot.send_message(message.from_user.id, 'В каком городе ищем гостиницу? ')
+"""Команда /lowprice
+После ввода команды у пользователя запрашивается:
+1. Город, где будет проводиться поиск.
+2. Количество отелей, которые необходимо вывести в результате (не больше
+заранее определённого максимума).
+3. Необходимость загрузки и вывода фотографий для каждого отеля («Да/Нет»):
+a. При положительном ответе пользователь также вводит количество
+необходимых фотографий (не больше заранее определённого
+максимума).
+
+Для команд lowprice, highprice и bestdeal сообщение с результатом команды должно
+содержать краткую информацию по каждому отелю. В эту информацию как минимум
+входит:
+● название отеля,
+● адрес,
+● ссылка на страницу с отелем.
+● как далеко расположен от центра,
+● цена за ночь и суммарную стоимость.
+● N фотографий отеля (если пользователь счёл необходимым их вывод).
+"""
 
 
-@bot.message_handler(state=User.destinationId)
-def get_search_city(message):
-    bot.set_state(message.from_user.id, User.destinationId, message.chat.id)
-    button = city_markup(message.text)
-    bot.send_message(message.from_user.id, 'Уточните, пожалуйста:', reply_markup=button)
-
-
-@bot.message_handler(state=User.checkIn)
-def get_checkIn(message):
-    bot.set_state(message.from_user.id, User.checkOut, message.chat.id)
-    bot.send_message(message.from_user.id, 'Выберите дату отъезда')
-    User.checkIn = message.text
-
-
-@bot.message_handler(state=User.checkOut)
-def get_checkOut(message):
-    bot.set_state(message.from_user.id, User.checkIn, message.chat.id)
-    bot.send_message(message.from_user.id, 'собранная информация для поиска')
-    User.checkOut = message.text
-    bot.send_message(message.from_user.id, (f'{User.destinationId}, {User.checkIn}, {User.checkOut}'))
