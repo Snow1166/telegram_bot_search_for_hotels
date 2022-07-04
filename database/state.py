@@ -1,7 +1,8 @@
 from telebot.handler_backends import State, StatesGroup
 
 
-class User(StatesGroup):
+class StateUser(StatesGroup):
+    start = State()
     command = State()
     destinationId = State()
     checkIn = State()

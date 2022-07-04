@@ -19,3 +19,5 @@ logger.add('error.json', level='DEBUG', format="{time} {level} {message}", rotat
            serialize=True)
 
 CLEAN_NAME = '<([^<>]*)>'
+
+user_dict = dict()
