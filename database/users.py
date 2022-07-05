@@ -7,8 +7,8 @@ class User:
         self.price_min = None
         self.price_high = None
         self.distance = None
-        self.photo_hotel = None
-        self.total_photos = 0
+        self.total_hotel = None
+        self.total_photos = None
         self.locale = "ru-RU"
         self.currency = "RUB"
 

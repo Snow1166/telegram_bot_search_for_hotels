@@ -9,5 +9,5 @@ class StateUser(StatesGroup):
     checkOut = State()
     min_high_price = State()
     distance = State()
-    photo_hotel = State()
     total_photos = State()
+    total_hotel = State()

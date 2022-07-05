@@ -1,8 +1,7 @@
 from config import bot, user_dict
 from database.state import StateUser
 from database.users import User
-from t_bot.keyboard_markup.button_for_photo import photo_choice
-from t_bot.keyboard_markup.button_for_location import city_markup
+from t_bot.keyboard_markup.inline_keyboard import city_markup, photo_choice, hotel_choice
 
 
 @bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
@@ -33,7 +32,7 @@ def get_checkOut(message):
         bot.set_state(message.from_user.id, StateUser.min_high_price, message.chat.id)
         bot.send_message(message.from_user.id, 'Введите диапазон цен отелей, через пробел')
     else:
-        bot.set_state(message.from_user.id, StateUser.photo_hotel, message.chat.id)
+        bot.set_state(message.from_user.id, StateUser.total_photos, message.chat.id)
         button = photo_choice()
         bot.send_message(message.from_user.id, 'Вы хотите посмотреть фотографии отелей?', reply_markup=button)
 
@@ -48,6 +47,6 @@ def get_checkOut(message):
 @bot.message_handler(state=StateUser.distance)
 def get_checkOut(message):
     user_dict[message.chat.id].distance = message.text
-    bot.set_state(message.from_user.id, StateUser.photo_hotel, message.chat.id)
+    bot.set_state(message.from_user.id, StateUser.total_photos, message.chat.id)
     button = photo_choice()
-    bot.send_message(message.from_user.id, 'Сколько фотографий отелей вы хотите посмотреть?', reply_markup=button)
+    bot.send_message(message.from_user.id, 'Вы хотите посмотреть фотографии отелей?', reply_markup=button)

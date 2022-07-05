@@ -3,6 +3,7 @@ import json
 import config
 from requests_hotel.photo_hotel import get_url_photo
 
+
 def request_hotels(querystring):
     url = "https://hotels4.p.rapidapi.com/properties/list"
 
@@ -20,30 +21,22 @@ def request_hotels(querystring):
     return hotel_list
 
 
-querystring = {"destinationId": "483449", "pageNumber": "1", "pageSize": "25", "checkIn": "2022-07-20",
-               "checkOut": "2022-07-25", "adults1": "1", "sortOrder": "PRICE", "locale": "ru_RU", "currency": "RUB"}
-
-
-# def get_locations_list(message):
-#     """Парсим json файл поиска города и выдаем чистый словарь с локациями"""
-#     json_loc = request_location(message)
-#     locations = dict()
-#     for item in json_loc['suggestions'][0]['entities']:
-#         location_name = re.sub(config.CLEAN_NAME, '', item['caption'])
-#         locations[location_name] = item['destinationId']
-#     return locations
+# querystring = {"destinationId": "483449", "pageNumber": "1", "pageSize": "25", "checkIn": "2022-07-20",
+#                "checkOut": "2022-07-25", "adults1": "1", "sortOrder": "PRICE", "locale": "ru_RU", "currency": "RUB"}
 
 
 def get_hotels_list(message):
-    """Парсим json файл поиска города и выдаем чистый словарь с локациями"""
-    json_hotel_list = request_hotels(querystring)
+
+    json_hotel_list = request_hotels(message)
+
     hotel_list = dict()
     for item in json_hotel_list['data']['body']['searchResults']['results']:
         if 'ratePlan' in item:
             id_hotel = item['id']
             hotel_list[id_hotel] = {"name hotel": item['name']}
             if 'streetAddress' in item['address']:
-                hotel_list[id_hotel].update({"address": item['address']['streetAddress']})
+                hotel_list[id_hotel].update({"address": f"{item['address']['streetAddress']}, "
+                                                        f"{item['address']['locality']}"})
             else:
                 hotel_list[id_hotel].update({"address": item['address']['locality']})
             hotel_list[id_hotel].update({"starRating": '⭐' * int(item['starRating'])})
@@ -54,8 +47,6 @@ def get_hotels_list(message):
             photo = get_url_photo(3, id_hotel)
             hotel_list[id_hotel].update({"photo": photo})
 
-    # with open('hotel.json', 'w', encoding='utf-8') as file:
-    #     json.dump(hotel_list, file, ensure_ascii=False, indent=4)
+    with open('hotel.json', 'w', encoding='utf-8') as file:
+        json.dump(hotel_list, file, ensure_ascii=False, indent=4)
     return hotel_list
-
-
