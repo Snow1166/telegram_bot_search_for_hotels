@@ -15,7 +15,7 @@ class User:
     def get_querystring_lowprice(self):
         querystring = {"destinationId": {self.destinationId}, "pageNumber": "1", "pageSize": "25",
                        "checkIn": {self.checkIn}, "checkOut": {self.checkOut}, "adults1": "1",
-                       "sortOrder": "PRICE", "locale": "ru-RU", "currency": {self.currency}}
+                       "sortOrder": "PRICE", "locale": {self.locale}, "currency": {self.currency}}
         return querystring
 
     def get_querystring_highprice(self):
@@ -28,7 +28,7 @@ class User:
         querystring = {"destinationId": {self.destinationId}, "pageNumber": "1", "pageSize": "25",
                        "checkIn": {self.checkIn}, "checkOut": {self.checkOut}, "adults1": "1",
                        "priceMin": {self.price_min}, "priceMax": {self.price_high},
-                       "sortOrder": "PRICE", "locale": "en_US", "currency": "USD"}
+                       "sortOrder": "PRICE", "locale": {self.locale}, "currency": {self.currency}}
         return querystring
 
     def get_total_photo(self):

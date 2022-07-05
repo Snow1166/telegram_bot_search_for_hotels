@@ -50,4 +50,4 @@ def get_checkOut(message):
     user_dict[message.chat.id].distance = message.text
     bot.set_state(message.from_user.id, StateUser.photo_hotel, message.chat.id)
     button = photo_choice()
-    bot.send_message(message.from_user.id, 'Вы хотите посмотреть фотографии отелей?', reply_markup=button)
+    bot.send_message(message.from_user.id, 'Сколько фотографий отелей вы хотите посмотреть?', reply_markup=button)
