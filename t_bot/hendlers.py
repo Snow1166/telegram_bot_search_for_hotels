@@ -26,16 +26,7 @@ def get_checkIn(message):
     bot.send_message(message.from_user.id, 'Выберите дату отъезда')
 
 
-@bot.message_handler(state=StateUser.checkOut)
-def get_checkOut(message):
-    user_dict[message.chat.id].checkOut = message.text
-    if user_dict[message.chat.id].command == '/bestdeal':
-        bot.set_state(message.from_user.id, StateUser.min_high_price, message.chat.id)
-        bot.send_message(message.from_user.id, 'Введите диапазон цен отелей, через пробел')
-    else:
-        bot.set_state(message.from_user.id, StateUser.total_photos, message.chat.id)
-        button = photo_choice()
-        bot.send_message(message.from_user.id, 'Вы хотите посмотреть фотографии отелей?', reply_markup=button)
+
 
 
 @bot.message_handler(state=StateUser.min_high_price)

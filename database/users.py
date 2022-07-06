@@ -32,7 +32,7 @@ class User:
         return querystring
 
     def get_total_photo(self):
-        return self.total_photos
+        return int(self.total_photos)
 
     def get_total_hotels(self):
-        return self.total_hotel
+        return int(self.total_hotel)
