@@ -10,6 +10,7 @@ def city_markup(message):
         destinations.add(types.InlineKeyboardButton(text=city, callback_data=f'id_loc {cities[city]}'))
     return destinations
 
+
 def photo_choice():
     button_photo_choice = types.InlineKeyboardMarkup(row_width=5)
     button_0 = types.InlineKeyboardButton(text='Без фото', callback_data='photo 0')
@@ -21,6 +22,7 @@ def photo_choice():
     button_photo_choice.add(button_1, button_2, button_3, button_4, button_5)
     button_photo_choice.add(button_0)
     return button_photo_choice
+
 
 def hotel_choice():
     button_hotel_choice = types.InlineKeyboardMarkup(row_width=2)
