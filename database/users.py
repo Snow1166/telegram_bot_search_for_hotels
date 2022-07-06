@@ -33,3 +33,6 @@ class User:
 
     def get_total_photo(self):
         return self.total_photos
+
+    def get_total_hotels(self):
+        return self.total_hotel

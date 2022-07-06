@@ -7,7 +7,7 @@ def city_markup(message):
     cities = get_locations_list(message)
     destinations = types.InlineKeyboardMarkup()
     for city in cities:
-        destinations.add(types.InlineKeyboardButton(text=city, callback_data=f'id_loc{cities[city]}'))
+        destinations.add(types.InlineKeyboardButton(text=city, callback_data=f'id_loc {cities[city]}'))
     return destinations
 
 def photo_choice():
@@ -24,9 +24,10 @@ def photo_choice():
 
 def hotel_choice():
     button_hotel_choice = types.InlineKeyboardMarkup(row_width=2)
+    button_0 = types.InlineKeyboardButton(text='1', callback_data='hotel 1')
     button_1 = types.InlineKeyboardButton(text='3', callback_data='hotel 3')
     button_2 = types.InlineKeyboardButton(text='5', callback_data='hotel 5')
     button_3 = types.InlineKeyboardButton(text='7', callback_data='hotel 7')
     button_4 = types.InlineKeyboardButton(text='10', callback_data='hotel 10')
-    button_hotel_choice.add(button_1, button_2, button_3, button_4)
+    button_hotel_choice.add(button_0, button_1, button_2, button_3, button_4)
     return button_hotel_choice

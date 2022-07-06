@@ -18,6 +18,7 @@ def get_search_city(message):
     bot.send_message(message.from_user.id, 'Уточните, пожалуйста:', reply_markup=button)
 
 
+
 @bot.message_handler(state=StateUser.checkIn)
 def get_checkIn(message):
     user_dict[message.chat.id].checkIn = message.text

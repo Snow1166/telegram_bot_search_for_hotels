@@ -6,7 +6,10 @@ from requests_hotel.hotel_list import get_hotels_list
 
 
 def get_lowprice_hotel(user_id):
-    hotel_list = get_hotels_list(user_dict[user_id].get_querystring_lowprice())
+    querystring = user_dict[user_id].get_querystring_lowprice()
+    total_photo = user_dict[user_id].get_total_photo()
+    total_hotels = user_dict[user_id].get_total_hotels()
+    hotel_list = get_hotels_list(querystring, total_hotels, total_photo,)
     for hotel in hotel_list.values():
         bot.send_message(user_id, f"""
         <b>Название отеля:</b> {hotel['name hotel']} {hotel['starRating']}        
