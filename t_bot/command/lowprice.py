@@ -1,7 +1,6 @@
-import config
 from telebot import types
 from config import bot, user_dict
-from requests_hotel.hotel_list import get_hotels_list
+from t_bot.utilities.creating_list_hotels import get_final_hotel_list
 
 
 def get_lowprice_hotel(user_id):
@@ -9,10 +8,10 @@ def get_lowprice_hotel(user_id):
     total_photo = user_dict[user_id].get_total_photo()
     total_hotels = user_dict[user_id].get_total_hotels()
 
-    hotel_list = get_hotels_list(querystring, total_hotels, total_photo,)
+    hotel_list = get_final_hotel_list(querystring, total_hotels, total_photo, )
     for hotel in hotel_list.values():
         bot.send_message(user_id,
-        f"""
+                         f"""
         <b>Название отеля:</b> {hotel['name hotel']} {hotel['starRating']}        
         <b>Адрес:</b> {hotel['address']}
         <b>Рейтинг отеля:</b> {hotel['unformattedRating']}"
