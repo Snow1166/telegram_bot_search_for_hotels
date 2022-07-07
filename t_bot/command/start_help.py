@@ -3,6 +3,7 @@ from database.users import User
 
 @bot.message_handler(commands=['start', 'help'])
 def command_start(message):
+    # bot.send_sticker(message.chat.id, 'CAADAgADsQADWQMDAAEJK1niI56hlhYE')
     user_dict[message.from_user.id] = User()
     welcome = open('images/logo.jpg', 'rb')
     bot.send_photo(message.chat.id, welcome, caption=(
@@ -13,3 +14,4 @@ def command_start(message):
                 /history - история запросов
                 /settings - настройки
         """))
+
