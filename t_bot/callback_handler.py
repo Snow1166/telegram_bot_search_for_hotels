@@ -3,7 +3,7 @@ from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice
 from t_bot.command import lowprice
 from telegram_bot_calendar import DetailedTelegramCalendar
-from datetime import date
+from datetime import date, timedelta
 
 
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkin'))
@@ -20,7 +20,7 @@ def set_checkin(call):
         user_dict[call.from_user.id].checkin = result
         print(result)
         calendar, step = DetailedTelegramCalendar(calendar_id='checkout',
-                                                  min_date=user_dict[call.from_user.id].checkin,
+                                                  min_date=user_dict[call.from_user.id].checkin + timedelta(days=1),
                                                   locale='ru').build()
         bot.edit_message_text(chat_id=call.message.chat.id,
                               message_id=call.message.message_id,
@@ -31,7 +31,7 @@ def set_checkin(call):
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkout'))
 def set_checkout(call):
     result, key, step = DetailedTelegramCalendar(calendar_id='checkout',
-                                                 min_date=user_dict[call.from_user.id].checkin,
+                                                 min_date=user_dict[call.from_user.id].checkin + timedelta(days=1),
                                                  locale='ru').process(
         call.data)
     if not result and key:
@@ -40,7 +40,11 @@ def set_checkout(call):
                               call.message.message_id,
                               reply_markup=key)
     elif result:
-        user_dict[call.from_user.id].checkout = result
+
+        user_dict[call.from_user.id].total_day = result - user_dict[call.from_user.id].checkin
+        user_dict[call.from_user.id].checkout = result.strftime("%Y-%m-%d")
+        user_dict[call.from_user.id].checkin = user_dict[call.from_user.id].checkin.strftime("%Y-%m-%d")
+        print(user_dict[call.from_user.id].total_day)
         if user_dict[call.from_user.id].command == '/bestdeal':
             bot.set_state(call.message.chat.id, StateUser.min_high_price)
             bot.edit_message_text(chat_id=call.message.chat.id,
@@ -59,7 +63,7 @@ def set_checkout(call):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     if call.data.startswith('id_loc'):
-        user_dict[call.from_user.id].destinationid = call.data
+        user_dict[call.from_user.id].destination_id = call.data.split()[1]
         bot.answer_callback_query(callback_query_id=call.id)
         bot.set_state(call.message.chat.id, StateUser.checkin)
         calendar, step = DetailedTelegramCalendar(calendar_id='checkin',

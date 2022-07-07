@@ -6,21 +6,21 @@ from requests_hotel.photo_hotel import get_url_photo, add_photo
 
 def request_hotels(querystring):
     url = "https://hotels4.p.rapidapi.com/properties/list"
-    querystring = {"destinationId": "549499", "pageNumber": "1", "pageSize": "25", "checkIn": "2022-07-20",
-                   "checkOut": "2022-07-25", "adults1": "1", "sortOrder": "PRICE", "locale": "ru_RU", "currency": "RUB"}
+    # querystring = {"destinationId": "549499", "pageNumber": "1", "pageSize": "25", "checkIn": "2022-07-20",
+    #                "checkOut": "2022-07-25", "adults1": "1", "sortOrder": "PRICE", "locale": "ru_RU", "currency": "RUB"}
 
-    # answer = requests.get(url, headers=config.hotels_headers, params=querystring)
-    # if answer.status_code == requests.codes.ok:
-    #     hotel_list = json.loads(answer.text)
+    answer = requests.get(url, headers=config.hotels_headers, params=querystring)
+    if answer.status_code == requests.codes.ok:
+        hotel_list = json.loads(answer.text)
     #     with open('hotel_list.json', 'w', encoding='utf-8') as file:
     #         json.dump(hotel_list, file, ensure_ascii=False, indent=4)
-    #     return hotel_list
+        return hotel_list
     #
     # """ Сохранение запроса в json и дальнейшее его использование его вместо запроса для экономии вызовов"""
     #
-    with open('hotel_list.json', 'r', encoding='utf-8') as file:
-        hotel_list = json.load(file)
-    return hotel_list
+    # with open('hotel_list.json', 'r', encoding='utf-8') as file:
+    #     hotel_list = json.load(file)
+    # return hotel_list
 
 
 def get_hotels_list(querystring, total_hotels, total_photo):
@@ -49,8 +49,8 @@ def get_hotels_list(querystring, total_hotels, total_photo):
             if total_hotels == 0:
                 break
     # hotel_list = add_photo(hotel_list, total_photo)
-    with open('hotel.json', 'w', encoding='utf-8') as file:
-        json.dump(hotel_list, file, ensure_ascii=False, indent=4)
+    # with open('hotel.json', 'w', encoding='utf-8') as file:
+    #     json.dump(hotel_list, file, ensure_ascii=False, indent=4)
     return hotel_list
 
 # def get_sorted_hotel_list(querystring, total_photo, total_hotels):

@@ -4,19 +4,19 @@ import config
 
 
 def request_photo(id_hotel):
-    # url = "https://hotels4.p.rapidapi.com/properties/get-hotel-photos"
-    # answer = requests.get(url, headers=config.hotels_headers, params={"id": f"{id_hotel}"})
-    # if answer.status_code == requests.codes.ok:
-    #     photo_list = json.loads(answer.text)
+    url = "https://hotels4.p.rapidapi.com/properties/get-hotel-photos"
+    answer = requests.get(url, headers=config.hotels_headers, params={"id": f"{id_hotel}"})
+    if answer.status_code == requests.codes.ok:
+        photo_list = json.loads(answer.text)
         # with open('photo_list.json', 'w', encoding='utf-8') as file:
         #     json.dump(photo_list, file, ensure_ascii=False, indent=4)
-        # return photo_list
+        return photo_list
 
     """ Сохранение запроса в json и дальнейшее его использование его вместо запроса для экономии вызовов"""
 
-    with open('photo_list.json', 'r', encoding='utf-8') as file:
-        photo_list = json.load(file)
-    return photo_list
+    # with open('photo_list.json', 'r', encoding='utf-8') as file:
+    #     photo_list = json.load(file)
+    # return photo_list
 
 
 def get_url_photo(id_hotel, total_photo):
