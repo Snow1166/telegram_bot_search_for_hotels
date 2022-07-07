@@ -4,10 +4,7 @@ from t_bot.utilities.creating_list_hotels import get_final_hotel_list
 
 
 def send_hotels_list_for_user(user_id):
-    x = user_dict[user_id].get_command()
-    print(x)
     querystring = user_dict[user_id].get_querystring()
-    print(querystring)
     total_photo = user_dict[user_id].get_total_photo()
     total_hotels = user_dict[user_id].get_total_hotels()
 

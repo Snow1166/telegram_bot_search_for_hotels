@@ -10,7 +10,7 @@ class User:
         self.distance = None
         self.total_hotel = None
         self.total_photos = None
-        self.locale = "ru-RU"
+        self.locale = "ru_RU"
         self.currency = "RUB"
 
     def get_querystring(self):
