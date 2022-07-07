@@ -4,12 +4,14 @@ import config
 
 
 def request_hotels(querystring):
-    url = "https://hotels4.p.rapidapi.com/properties/list"
-    answer = requests.get(url, headers=config.hotels_headers, params=querystring)
-    if answer.status_code == requests.codes.ok:
-        hotel_list = json.loads(answer.text)
-
-        return hotel_list
+    try:
+        url = "https://hotels4.p.rapidapi.com/properties/list"
+        answer = requests.get(url, headers=config.hotels_headers, params=querystring, timeout=15)
+        if answer.status_code == requests.codes.ok:
+            hotel_list = json.loads(answer.text)
+            return hotel_list
+    except TimeoutError:
+        return None
 
 
 def get_hotels_list(querystring):

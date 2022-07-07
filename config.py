@@ -19,6 +19,6 @@ hotels_headers = {
 # logger.add('error.json', level='DEBUG', format="{time} {level} {message}", rotation='00:00', compression='zip',
 #            serialize=True)
 
-CLEAN_NAME = '<([^<>]*)>'
+delete_spans = '<([^<>]*)>'
 
 user_dict = dict()
