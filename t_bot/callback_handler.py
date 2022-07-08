@@ -1,7 +1,7 @@
 from config import bot, user_dict
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice
-from t_bot.command import lowprice
+from t_bot.utilities.creating_list_hotels import send_hotels_list_for_user
 from telegram_bot_calendar import DetailedTelegramCalendar
 from datetime import date, timedelta
 
@@ -18,7 +18,6 @@ def set_checkin(call):
                               reply_markup=key)
     elif result:
         user_dict[call.from_user.id].checkin = result
-        print(result)
         calendar, step = DetailedTelegramCalendar(calendar_id='checkout',
                                                   min_date=user_dict[call.from_user.id].checkin + timedelta(days=1),
                                                   locale='ru').build()
@@ -43,7 +42,6 @@ def set_checkout(call):
         user_dict[call.from_user.id].total_day = int((result - user_dict[call.from_user.id].checkin).days)
         user_dict[call.from_user.id].checkout = result.strftime("%Y-%m-%d")
         user_dict[call.from_user.id].checkin = user_dict[call.from_user.id].checkin.strftime("%Y-%m-%d")
-        print(user_dict[call.from_user.id].total_day)
         if user_dict[call.from_user.id].command == '/bestdeal':
             bot.set_state(call.message.chat.id, StateUser.min_high_price)
             bot.edit_message_text(chat_id=call.message.chat.id,
@@ -92,5 +90,5 @@ def callback_inline(call):
                               message_id=call.message.message_id,
                               text="Подождите, ищем походящие предложения...",
                               reply_markup=None)
-        lowprice.send_hotels_list_for_user(call.from_user.id)
+        send_hotels_list_for_user(call.from_user.id)
 

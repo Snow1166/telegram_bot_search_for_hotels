@@ -16,7 +16,7 @@ def get_star_rating(hotel):
     try:
         return {"starRating": '⭐' * int(hotel['starRating'])}
     except KeyError:
-        return {"starRating": "Рейтинг не указан."}
+        return {"starRating": " "}
 
 
 def get_unformatted_rating(hotel):
@@ -38,6 +38,13 @@ def get_price(hotel):
         return {"price": hotel['ratePlan']['price']['exactCurrent']}
     except KeyError:
         return {"price": "Уточняйте цену на сайте."}
+
+
+def get_total_price(hotel, total_day):
+    try:
+        return {"total_price": hotel['ratePlan']['price']['exactCurrent'] * total_day}
+    except KeyError:
+        return {"total_price": "Уточняйте цену на сайте."}
 
 
 def get_site(hotel):

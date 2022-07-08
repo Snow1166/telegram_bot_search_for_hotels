@@ -30,7 +30,8 @@ class User:
             querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
                            "checkIn": self.checkin, "checkOut": self.checkout, "adults1": "1",
                            "priceMin": self.price_min, "priceMax": self.price_high,
-                           "sortOrder": "PRICE", "locale": self.locale, "currency": self.currency}
+                           "sortOrder": "DISTANCE_FROM_LANDMARK", "landmarkIds": "Центр города",
+                           "locale": self.locale, "currency": self.currency}
             return querystring
 
     def get_total_photo(self):

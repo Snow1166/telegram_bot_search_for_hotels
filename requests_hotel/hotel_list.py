@@ -11,6 +11,8 @@ def request_hotels(querystring):
         answer = requests.get(url, headers=config.hotels_headers, params=querystring, timeout=15)
         if answer.status_code == requests.codes.ok:
             hotel_list = json.loads(answer.text)
+            with open('hotel_list.json', 'w', encoding='utf-8') as file:
+                json.dump(hotel_list, file, ensure_ascii=False, indent=4)
             return hotel_list
     except TimeoutError:
         return None
@@ -22,12 +24,14 @@ def get_hotels_list(querystring):
     for hotel in json_hotel_list['data']['body']['searchResults']['results']:
         id_hotel = hotel['id']
         hotel_list[id_hotel] = hotel
+    with open('hotel.json', 'w', encoding='utf-8') as file:
+        json.dump(hotel_list, file, ensure_ascii=False, indent=4)
     return hotel_list
 
-# querystring = {"destinationId": 332483, "pageNumber": "1", "pageSize": "25",
-#                "checkIn": '2022-08-04', "checkOut": '2022-08-06', "adults1": "1",
-#                "priceMin": 3000, "priceMax": 2000,
-#                "sortOrder":"DISTANCE_FROM_LANDMARK", "distancMin": 1,"distancMax": 2,
-#                "locale": "ru-RU", "currency": "RUB"}
-#
-# request_hotels(querystring)
+querystring = {"destinationId": 332483, "pageNumber": "1", "pageSize": "25",
+               "checkIn": '2022-08-04', "checkOut": '2022-08-06', "adults1": "1",
+               "priceMin": 3000, "priceMax": 4000,
+               "sortOrder":"DISTANCE_FROM_LANDMARK", "landmarkIds": "City cente",
+               "locale": "ru_RU", "currency": "RUB"}
+
+get_hotels_list(querystring)

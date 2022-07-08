@@ -24,7 +24,6 @@ def get_url_photo(id_hotel, total_photo):
     photo_list_url = list()
     for i in range(total_photo):
         photo_list_url.append(photo_list['hotelImages'][i]['baseUrl'].replace("{size}", "b"))
-        print(photo_list_url)
     return photo_list_url
 
 
