@@ -40,8 +40,7 @@ def set_checkout(call):
                               call.message.message_id,
                               reply_markup=key)
     elif result:
-
-        user_dict[call.from_user.id].total_day = result - user_dict[call.from_user.id].checkin
+        user_dict[call.from_user.id].total_day = int((result - user_dict[call.from_user.id].checkin).days)
         user_dict[call.from_user.id].checkout = result.strftime("%Y-%m-%d")
         user_dict[call.from_user.id].checkin = user_dict[call.from_user.id].checkin.strftime("%Y-%m-%d")
         print(user_dict[call.from_user.id].total_day)
@@ -93,9 +92,5 @@ def callback_inline(call):
                               message_id=call.message.message_id,
                               text="Подождите, ищем походящие предложения...",
                               reply_markup=None)
-        if user_dict[call.from_user.id].command == '/lowprice':
-            lowprice.get_lowprice_hotel(call.from_user.id)
-        elif user_dict[call.from_user.id].command == '/highprice':
-            pass
-        elif user_dict[call.from_user.id].command == '/bestdeal':
-            pass
+        lowprice.send_hotels_list_for_user(call.from_user.id)
+

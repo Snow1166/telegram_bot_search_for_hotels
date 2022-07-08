@@ -1,7 +1,6 @@
 from config import bot, user_dict
 from database.state import StateUser
-from database.users import User
-from t_bot.keyboard_markup.inline_keyboard import city_markup, photo_choice, hotel_choice
+from t_bot.keyboard_markup.inline_keyboard import city_markup, photo_choice
 
 
 @bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
