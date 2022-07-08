@@ -3,16 +3,6 @@ from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import city_markup, photo_choice
 
 
-@bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
-def command_lowprice(message):
-    user_dict[message.chat.id].command = message.text
-    bot.set_state(message.from_user.id,
-                  StateUser.destination_id,
-                  message.chat.id)
-    bot.send_message(message.from_user.id,
-                     'В каком городе ищем гостиницу? ')
-
-
 @bot.message_handler(state=StateUser.destination_id)
 def get_search_city(message):
     button = city_markup(message.text)
