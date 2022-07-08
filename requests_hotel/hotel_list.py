@@ -28,10 +28,10 @@ def get_hotels_list(querystring):
         json.dump(hotel_list, file, ensure_ascii=False, indent=4)
     return hotel_list
 
-querystring = {"destinationId": 332483, "pageNumber": "1", "pageSize": "25",
-               "checkIn": '2022-08-04', "checkOut": '2022-08-06', "adults1": "1",
-               "priceMin": 3000, "priceMax": 4000,
-               "sortOrder":"DISTANCE_FROM_LANDMARK", "landmarkIds": "City cente",
-               "locale": "ru_RU", "currency": "RUB"}
-
-get_hotels_list(querystring)
+# querystring = {"destinationId": 332483, "pageNumber": "1", "pageSize": "25",
+#                "checkIn": '2022-08-04', "checkOut": '2022-08-06', "adults1": "1",
+#                "priceMin": 3000, "priceMax": 4000,
+#                "sortOrder":"DISTANCE_FROM_LANDMARK", "landmarkIds": "City cente",
+#                "locale": "ru_RU", "currency": "RUB"}
+#
+# get_hotels_list(querystring)

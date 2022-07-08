@@ -24,9 +24,11 @@ def get_search_city(message):
                      reply_markup=button)
 
 
-@bot.message_handler(state=StateUser.min_high_price)
+@bot.message_handler(state=StateUser.min_max_price)
 def get_checkout(message):
-    user_dict[message.chat.id].min_high_price = message.text.split()
+    price_min, price_max = message.text.split()
+    user_dict[message.chat.id].price_min = price_min
+    user_dict[message.chat.id].price_max = price_max
     bot.set_state(message.from_user.id,
                   StateUser.distance,
                   message.chat.id)

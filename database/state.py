@@ -7,7 +7,7 @@ class StateUser(StatesGroup):
     destination_id = State()
     checkin = State()
     checkout = State()
-    min_high_price = State()
+    min_max_price = State()
     distance = State()
     total_photos = State()
     total_hotel = State()

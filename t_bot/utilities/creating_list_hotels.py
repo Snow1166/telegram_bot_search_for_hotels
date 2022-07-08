@@ -42,8 +42,8 @@ def send_hotels_list_for_user(user_id):
 <b>Рейтинг отеля:</b> {hotel['unformattedRating']}
 <b>Страницу с отелем:</b> {hotel['site']}
 <b>Расположение от центра:</b> {hotel['landmarks']}
-<b>Цена за ночь:</b> {hotel['price']} руб. 
-<b>Цена за {user_dict[user_id].total_day} (дня/дней):</b> {hotel['total_price']} руб. 
+<b>Цена за ночь:</b> {hotel['price']}
+<b>Цена за {user_dict[user_id].total_day} (дня/дней):</b> {hotel['total_price']} 
       """,
                          disable_web_page_preview=True)
         if total_photo > 0:
