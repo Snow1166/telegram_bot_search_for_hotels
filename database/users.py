@@ -14,24 +14,22 @@ class User:
         self.currency = "RUB"
 
     def get_querystring(self):
+        querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
+                       "checkIn": self.checkin, "checkOut": self.checkout, "adults1": "1",
+                       "sortOrder": "PRICE", "locale": self.locale, "currency": self.currency}
+
         if self.command == '/lowprice':
-            querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
-                           "checkIn": self.checkin, "checkOut": self.checkout, "adults1": "1",
-                           "sortOrder": "PRICE", "locale": self.locale, "currency": self.currency}
             return querystring
 
         elif self.command == '/highprice':
-            querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
-                           "checkIn": self.checkin, "checkOut": self.checkout, "adults1": "1",
-                           "sortOrder": "PRICE_HIGHEST_FIRST", "locale": self.locale, "currency": self.currency}
+            querystring['sortOrder'] = "PRICE_HIGHEST_FIRST"
             return querystring
 
         elif self.command == '/bestdeal':
-            querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
-                           "checkIn": self.checkin, "checkOut": self.checkout, "adults1": "1",
-                           "priceMin": self.price_min, "priceMax": self.price_max,
-                           "sortOrder": "DISTANCE_FROM_LANDMARK", "landmarkIds": "Центр города",
-                           "locale": self.locale, "currency": self.currency}
+            querystring['sortOrder'] = 'DISTANCE_FROM_LANDMARK'
+            querystring['landmarkIds'] = 'Центр города'
+            querystring['priceMin'] = self.price_min
+            querystring['priceMax'] = self.price_max
             return querystring
 
     def get_total_photo(self):

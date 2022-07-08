@@ -26,8 +26,6 @@ def get_final_hotel_list(querystring, total_hotels, total_photo, total_day):
     return ready_list_hotels
 
 
-
-
 def send_hotels_list_for_user(user_id):
     querystring = user_dict[user_id].get_querystring()
     print(querystring)
@@ -37,7 +35,7 @@ def send_hotels_list_for_user(user_id):
     for hotel in hotel_list.values():
         bot.send_message(user_id,
                          f"""
-<b>Название отеля:</b> {hotel['name hotel']} {hotel['starRating']}        
+<b>Название отеля:</b> {hotel['name']} {hotel['starRating']}        
 <b>Адрес:</b> {hotel['address']}
 <b>Рейтинг отеля:</b> {hotel['unformattedRating']}
 <b>Страницу с отелем:</b> {hotel['site']}

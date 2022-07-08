@@ -1,15 +1,9 @@
 def get_name(hotel):
-    if 'name' in hotel:
-        return {"name hotel": f"{hotel['name']}"}
-    else:
-        return {"name hotel": "Название отеля не указано"}
+    return {'name': hotel.get('name', 'Название отеля не указано')}
 
 
 def get_address(hotel):
-    try:
-        return {"address": f"{hotel['address']['streetAddress']}"}
-    except KeyError:
-        return {"address": "Адрес не указан."}
+    return {'address': hotel.get('address', {}).get('streetAddress', 'Адрес не указан')}
 
 
 def get_star_rating(hotel):
@@ -20,17 +14,11 @@ def get_star_rating(hotel):
 
 
 def get_unformatted_rating(hotel):
-    try:
-        return {"unformattedRating": hotel['guestReviews']['unformattedRating']}
-    except KeyError:
-        return {"unformattedRating": "Рейтинг не указан."}
+    return {"unformattedRating": hotel.get('guestReviews', {}).get('unformattedRating', 'Рейтинг не указан.')}
 
 
 def get_landmarks(hotel):
-    try:
-        return {"landmarks": hotel['landmarks'][0]['distance']}
-    except KeyError:
-        return {"landmarks": "Дистанция до центра не указана."}
+    return {"landmarks": hotel.get('landmarks', {})[0].get('distance', 'Дистанция до центра не указана.')}
 
 
 def get_price(hotel):
