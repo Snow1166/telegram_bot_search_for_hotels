@@ -1,4 +1,5 @@
 from requests_hotel.locations import get_locations_list
+from database.state import StateUser
 from telebot import types
 from loguru import logger
 
@@ -43,5 +44,10 @@ def hotel_choice(user_id):
                                           callback_data=f'hotel {i}')) for i in [1, 3, 5, 7, 10]]
     button_hotel_choice.add(*button)
     return button_hotel_choice
+
+
+def button_cancel():
+    button = types.InlineKeyboardButton(text='Возврат в главное меню', callback_data='cancel')
+    return button
 
 

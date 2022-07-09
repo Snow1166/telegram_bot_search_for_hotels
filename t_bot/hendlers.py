@@ -13,6 +13,9 @@ def get_search_city(message):
                          'В Лондоне? '
                          'https://www.youtube.com/watch?v=3-TMbwk7FvI')
     if func.city_correct(message.text):
+        bot.set_state(message.from_user.id,
+                      StateUser.checkin,
+                      message.chat.id)
         logger.info(f'User "{message.chat.id}" entered the city of "{message.text} "for the search')
         button = city_markup(message.text, message.chat.id)
         bot.send_message(message.from_user.id,
@@ -49,6 +52,9 @@ def get_min_max_price(message):
 @bot.message_handler(state=StateUser.distance)
 def get_max_distance(message):
     if func.distance_correct(message.text):
+        bot.set_state(message.from_user.id,
+                      StateUser.total_hotel,
+                      message.chat.id)
         logger.info(f'User "{message.chat.id}" entered the maximum distance "{message.text}"')
         user_dict[message.chat.id].distance = message.text
         button = hotel_choice(message.chat.id)

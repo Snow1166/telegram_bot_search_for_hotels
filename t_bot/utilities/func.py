@@ -1,3 +1,6 @@
+from config import alphabet
+
+
 def get_name(hotel):
     return {'name': hotel.get('name', 'Название отеля не указано')}
 
@@ -56,23 +59,27 @@ def format_message_for_user(hotel, total_day):
 
 
 def city_correct(name_city):
-    if any(map(str.isdigit, name_city)):
-        return False
-    else:
-        return True
+    for sym in name_city:
+        if sym.lower() not in alphabet:
+            return False
+    return True
 
 
 def price_correct(min_max_price):
     price_list = min_max_price.split()
-    if len(price_list) == 2 and price_list[0].isdigit() and price_list[1].isdigit() and\
+    if len(price_list) == 2 and price_list[0].isdigit() and price_list[1].isdigit() and \
             -1 < int(price_list[0]) < int(price_list[1]):
         return True
-    else:
-        return False
+    return False
 
 
 def distance_correct(distance):
     if distance.isdigit() and int(distance) > 0:
         return True
-    else:
-        return False
+    return False
+
+
+def check_user_state(state_user):
+    if state_user.endswith('command'):
+        return True
+    return False
