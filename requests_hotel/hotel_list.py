@@ -1,14 +1,15 @@
 import requests
 import json
 import config
-import loguru
+from loguru import logger
 
 
-@loguru.logger.catch()
-def request_hotels(querystring):
+@logger.catch()
+def request_hotels(querystring, user_id):
     try:
-        url = "https://hotels4.p.rapidapi.com/properties/list"
-        answer = requests.get(url, headers=config.hotels_headers, params=querystring, timeout=15)
+        logger.info(f'User {user_id} request a list of hotels with parameters {querystring}')
+        answer = requests.get(config.url_properties_list, headers=config.hotels_headers, params=querystring, timeout=15)
+        logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
         if answer.status_code == requests.codes.ok:
             hotel_list = json.loads(answer.text)
             with open('hotel_list.json', 'w', encoding='utf-8') as file:
@@ -18,8 +19,10 @@ def request_hotels(querystring):
         return None
 
 
-def get_hotels_list(querystring):
-    json_hotel_list = request_hotels(querystring)
+@logger.catch()
+def get_hotels_list(querystring, user_id):
+    json_hotel_list = request_hotels(querystring, user_id)
+    logger.info(f'User {user_id} parsing list of hotels')
     hotel_list = dict()
     for hotel in json_hotel_list['data']['body']['searchResults']['results']:
         id_hotel = hotel['id']

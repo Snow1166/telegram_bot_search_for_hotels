@@ -5,8 +5,8 @@ from telebot import types
 from config import bot, user_dict
 
 
-def get_final_hotel_list(querystring, total_hotels, total_photo, total_day):
-    hotel_list = get_hotels_list(querystring)
+def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id):
+    hotel_list = get_hotels_list(querystring, user_id)
     ready_list_hotels = dict()
     for hotel in hotel_list.values():
         total_hotels -= 1
@@ -22,16 +22,16 @@ def get_final_hotel_list(querystring, total_hotels, total_photo, total_day):
         if total_hotels == 0:
             break
     if total_photo > 0:
-        ready_list_hotels = add_photo(ready_list_hotels, total_photo)
+        ready_list_hotels = add_photo(ready_list_hotels, total_photo, user_id)
     return ready_list_hotels
 
 
 def send_hotels_list_for_user(user_id):
     querystring = user_dict[user_id].get_querystring()
-    print(querystring)
     total_photo = user_dict[user_id].get_total_photo()
     total_hotels = user_dict[user_id].get_total_hotels()
-    hotel_list = get_final_hotel_list(querystring, total_hotels, total_photo, user_dict[user_id].total_day)
+    total_day = user_dict[user_id].total_day
+    hotel_list = get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id)
     for hotel in hotel_list.values():
         bot.send_message(user_id,
                          f"""
