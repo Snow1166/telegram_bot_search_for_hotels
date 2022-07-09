@@ -13,6 +13,7 @@ def city_markup(message, user_id):
     for city in cities:
         destinations.add(types.InlineKeyboardButton(text=city,
                                                     callback_data=f'id_loc {cities[city]}'))
+    destinations.add(button_cancel())
     return destinations
 
 
@@ -23,6 +24,7 @@ def photo_bool_choice(user_id):
     button_1 = types.InlineKeyboardButton(text='Да', callback_data='bool_photo yes')
     button_2 = types.InlineKeyboardButton(text='Нет', callback_data='bool_photo no')
     button_photo_choice.add(button_1, button_2)
+    button_photo_choice.add(button_cancel())
     return button_photo_choice
 
 
@@ -33,6 +35,7 @@ def photo_choice(user_id):
     button = [(types.InlineKeyboardButton(text=i,
                                           callback_data=f'photo {i}')) for i in range(1, 6)]
     button_photo_choice.add(*button)
+    button_photo_choice.add(button_cancel())
     return button_photo_choice
 
 
@@ -43,6 +46,7 @@ def hotel_choice(user_id):
     button = [(types.InlineKeyboardButton(text=i,
                                           callback_data=f'hotel {i}')) for i in [1, 3, 5, 7, 10]]
     button_hotel_choice.add(*button)
+    button_hotel_choice.add(button_cancel())
     return button_hotel_choice
 
 
@@ -51,3 +55,7 @@ def button_cancel():
     return button
 
 
+def button_cancel_ready():
+    button = types.InlineKeyboardMarkup()
+    button.add(button_cancel())
+    return button

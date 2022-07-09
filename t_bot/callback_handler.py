@@ -1,4 +1,4 @@
-from config import bot, user_dict
+from config import bot, user_dict, command_list
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice, photo_bool_choice
 from t_bot.utilities.creating_list_hotels import send_hotels_list_for_user
@@ -118,3 +118,12 @@ def callback_inline(call):
                               text="Подождите, ищем походящие предложения...",
                               reply_markup=None)
         send_hotels_list_for_user(call.from_user.id)
+
+    elif call.data.startswith('cancel'):
+        bot.set_state(call.message.chat.id, StateUser.command)
+        logger.info(f'User "{call.from_user.id}" cancel, return to the main menu"')
+        bot.answer_callback_query(callback_query_id=call.id)
+        bot.edit_message_text(chat_id=call.message.chat.id,
+                              message_id=call.message.message_id,
+                              text=command_list,
+                              reply_markup=None)

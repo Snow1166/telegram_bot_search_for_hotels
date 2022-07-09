@@ -1,6 +1,7 @@
 from config import bot, user_dict
 from database.state import StateUser
-from t_bot.keyboard_markup.inline_keyboard import city_markup, photo_bool_choice, hotel_choice
+from t_bot.keyboard_markup.inline_keyboard import city_markup, hotel_choice, button_cancel_ready
+
 from loguru import logger
 from t_bot.utilities import func
 
@@ -25,7 +26,8 @@ def get_search_city(message):
         logger.info(f'User "{message.chat.id}" incorrect city name input "{message.text}"')
         bot.send_message(message.from_user.id, """
 Название города не может содержать цифры.
-Пожалуйста, введите корректное название города.""")
+Пожалуйста, введите корректное название города.""",
+                         reply_markup=button_cancel_ready())
 
 
 @logger.catch()
@@ -40,12 +42,14 @@ def get_min_max_price(message):
                       StateUser.distance,
                       message.chat.id)
         bot.send_message(message.from_user.id,
-                         'Укажите максимальное расстояние от центра в километрах.')
+                         'Укажите максимальное расстояние от центра в километрах.',
+                         reply_markup=button_cancel_ready())
     else:
         logger.info(f'User "{message.chat.id}" incorrect min_max_price input "{message.text}"')
         bot.send_message(message.from_user.id, """
 Введите минимальную и максимальную цену стоимости отеля через пробел.
-Максимальная цена не может быть меньше минимальной. Цены не могут быть отрицательные.""")
+Максимальная цена не может быть меньше минимальной. Цены не могут быть отрицательные.""",
+                         reply_markup=button_cancel_ready())
 
 
 @logger.catch()
@@ -65,4 +69,5 @@ def get_max_distance(message):
         logger.info(f'User "{message.chat.id}" incorrect distance input "{message.text}"')
         bot.send_message(message.from_user.id, """
 Введите максимальное расстояние от центра.
-Число должно быть положительное.""")
+Число должно быть положительное.""",
+                         reply_markup=button_cancel_ready())
