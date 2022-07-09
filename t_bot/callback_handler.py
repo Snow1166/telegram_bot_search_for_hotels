@@ -1,6 +1,6 @@
 from config import bot, user_dict
 from database.state import StateUser
-from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice
+from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice, photo_bool_choice
 from t_bot.utilities.creating_list_hotels import send_hotels_list_for_user
 from telegram_bot_calendar import DetailedTelegramCalendar
 from datetime import date, timedelta
@@ -54,11 +54,10 @@ def set_checkout(call):
                                   text='Введите диапазон цен отелей, через пробел',
                                   reply_markup=None)
         else:
-            bot.set_state(call.message.chat.id, StateUser.total_photos)
-            button = photo_choice(call.from_user.id)
+            button = hotel_choice(call.from_user.id)
             bot.edit_message_text(chat_id=call.message.chat.id,
                                   message_id=call.message.message_id,
-                                  text='Вы хотите посмотреть фотографии отелей?',
+                                  text="Сколько отелей вывести для просмотра?",
                                   reply_markup=button)
 
 
@@ -70,7 +69,6 @@ def callback_inline(call):
         logger.info(f'User "{call.from_user.id}" choose destination_id "{destination_id}"')
         user_dict[call.from_user.id].destination_id = destination_id
         bot.answer_callback_query(callback_query_id=call.id)
-        bot.set_state(call.message.chat.id, StateUser.checkin)
         calendar, step = DetailedTelegramCalendar(calendar_id='checkin',
                                                   min_date=date.today(),
                                                   locale='ru').build()
@@ -79,26 +77,44 @@ def callback_inline(call):
                               text="Выберите дату заезда",
                               reply_markup=calendar)
 
-    elif call.data.startswith('photo'):
-        total_photos = call.data.split()[1]
-        logger.info(f'User "{call.from_user.id}" choose total_photos "{total_photos}"')
-        user_dict[call.from_user.id].total_photos = total_photos
-        bot.answer_callback_query(callback_query_id=call.id)
-        bot.set_state(call.message.chat.id, StateUser.total_hotel)
-        button = hotel_choice(call.from_user.id)
-        bot.edit_message_text(chat_id=call.message.chat.id,
-                              message_id=call.message.message_id,
-                              text="Сколько отелей загрузить?",
-                              reply_markup=button)
-
     elif call.data.startswith('hotel'):
         total_hotel = call.data.split()[1]
         logger.info(f'User "{call.from_user.id}" choose total_hotel "{total_hotel}"')
         user_dict[call.from_user.id].total_hotel = total_hotel
-        bot.set_state(call.message.chat.id, StateUser.start)
+        button = photo_bool_choice(call.from_user.id)
+        bot.edit_message_text(chat_id=call.message.chat.id,
+                              message_id=call.message.message_id,
+                              text='Вы хотите посмотреть фотографии отелей?',
+                              reply_markup=button)
+
+    elif call.data.startswith('bool_photo'):
+        photos_bool = call.data.split()[1]
+        logger.info(f'User "{call.from_user.id}" send photos? "{photos_bool}"')
+        user_dict[call.from_user.id].bool_photo = photos_bool
+        bot.answer_callback_query(callback_query_id=call.id)
+        if photos_bool == 'no':
+            user_dict[call.from_user.id].total_photos = 0
+            bot.set_state(call.message.chat.id, StateUser.command)
+            bot.edit_message_text(chat_id=call.message.chat.id,
+                                  message_id=call.message.message_id,
+                                  text="Подождите, ищем походящие предложения...",
+                                  reply_markup=None)
+            send_hotels_list_for_user(call.from_user.id)
+        elif photos_bool == 'yes':
+            button = photo_choice(call.from_user.id)
+            bot.edit_message_text(chat_id=call.message.chat.id,
+                                  message_id=call.message.message_id,
+                                  text='Сколько фотографий отелей показать?',
+                                  reply_markup=button)
+
+    elif call.data.startswith('photo'):
+        bot.set_state(call.message.chat.id, StateUser.command)
+        total_photos = call.data.split()[1]
+        logger.info(f'User "{call.from_user.id}" choose total_photos "{total_photos}"')
+        user_dict[call.from_user.id].total_photos = total_photos
+        bot.answer_callback_query(callback_query_id=call.id)
         bot.edit_message_text(chat_id=call.message.chat.id,
                               message_id=call.message.message_id,
                               text="Подождите, ищем походящие предложения...",
                               reply_markup=None)
         send_hotels_list_for_user(call.from_user.id)
-

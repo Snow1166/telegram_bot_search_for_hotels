@@ -53,3 +53,26 @@ def format_message_for_user(hotel, total_day):
 <b>Цена за {total_day} (дня/дней):</b> {hotel['total_price']} 
       """
     return message
+
+
+def city_correct(name_city):
+    if any(map(str.isdigit, name_city)):
+        return False
+    else:
+        return True
+
+
+def price_correct(min_max_price):
+    price_list = min_max_price.split()
+    if len(price_list) == 2 and price_list[0].isdigit() and price_list[1].isdigit() and\
+            -1 < int(price_list[0]) < int(price_list[1]):
+        return True
+    else:
+        return False
+
+
+def distance_correct(distance):
+    if distance.isdigit() and int(distance) > 0:
+        return True
+    else:
+        return False

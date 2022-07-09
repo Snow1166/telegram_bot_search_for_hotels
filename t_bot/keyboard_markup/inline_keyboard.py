@@ -16,14 +16,22 @@ def city_markup(message, user_id):
 
 
 @logger.catch()
+def photo_bool_choice(user_id):
+    logger.info(f'User "{user_id}" creating buttons for asking about the need for photos')
+    button_photo_choice = types.InlineKeyboardMarkup(row_width=2)
+    button_1 = types.InlineKeyboardButton(text='Да', callback_data='bool_photo yes')
+    button_2 = types.InlineKeyboardButton(text='Нет', callback_data='bool_photo no')
+    button_photo_choice.add(button_1, button_2)
+    return button_photo_choice
+
+
+@logger.catch()
 def photo_choice(user_id):
     logger.info(f'User "{user_id}" creating buttons to select the number of photos')
     button_photo_choice = types.InlineKeyboardMarkup(row_width=5)
     button = [(types.InlineKeyboardButton(text=i,
                                           callback_data=f'photo {i}')) for i in range(1, 6)]
     button_photo_choice.add(*button)
-    button_photo_choice.add(types.InlineKeyboardButton(text='Без фото',
-                                                       callback_data='photo 0'))
     return button_photo_choice
 
 
@@ -34,5 +42,6 @@ def hotel_choice(user_id):
     button = [(types.InlineKeyboardButton(text=i,
                                           callback_data=f'hotel {i}')) for i in [1, 3, 5, 7, 10]]
     button_hotel_choice.add(*button)
-
     return button_hotel_choice
+
+
