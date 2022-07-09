@@ -3,11 +3,14 @@ from requests_hotel.hotel_list import get_hotels_list
 from requests_hotel.photo_hotel import add_photo
 from telebot import types
 from config import bot, user_dict
+from loguru import logger
 
 
+@logger.catch()
 def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id):
     hotel_list = get_hotels_list(querystring, user_id)
     ready_list_hotels = dict()
+    logger.info(f'User "{user_id}" creating a final list of hotels')
     for hotel in hotel_list.values():
         total_hotels -= 1
         id_hotel = hotel['id']
@@ -22,27 +25,21 @@ def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user
         if total_hotels == 0:
             break
     if total_photo > 0:
+        logger.info(f'User "{user_id}" adding photos to the final list of hotels')
         ready_list_hotels = add_photo(ready_list_hotels, total_photo, user_id)
     return ready_list_hotels
 
 
+@logger.catch()
 def send_hotels_list_for_user(user_id):
     querystring = user_dict[user_id].get_querystring()
     total_photo = user_dict[user_id].get_total_photo()
     total_hotels = user_dict[user_id].get_total_hotels()
     total_day = user_dict[user_id].total_day
     hotel_list = get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id)
+    logger.info(f'User "{user_id}" sending a list of hotels to the user')
     for hotel in hotel_list.values():
-        bot.send_message(user_id,
-                         f"""
-<b>Название отеля:</b> {hotel['name']} {hotel['starRating']}        
-<b>Адрес:</b> {hotel['address']}
-<b>Рейтинг отеля:</b> {hotel['unformattedRating']}
-<b>Страницу с отелем:</b> {hotel['site']}
-<b>Расположение от центра:</b> {hotel['landmarks']}
-<b>Цена за ночь:</b> {hotel['price']}
-<b>Цена за {user_dict[user_id].total_day} (дня/дней):</b> {hotel['total_price']} 
-      """,
+        bot.send_message(user_id, func.format_message_for_user(hotel, total_day),
                          disable_web_page_preview=True)
         if total_photo > 0:
             media_group = [types.InputMediaPhoto(media=url) for url in hotel['photo']]

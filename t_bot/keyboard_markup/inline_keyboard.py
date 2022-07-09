@@ -8,7 +8,7 @@ def city_markup(message, user_id):
     """Создаем и возвращаем кнопки для точного определения города"""
     cities = get_locations_list(message, user_id)
     destinations = types.InlineKeyboardMarkup()
-    logger.info(f'User "{user_id} "creating buttons to accurately select the city of "{message}"')
+    logger.info(f'User "{user_id}" creating buttons to accurately select the city of "{message}"')
     for city in cities:
         destinations.add(types.InlineKeyboardButton(text=city,
                                                     callback_data=f'id_loc {cities[city]}'))

@@ -10,7 +10,7 @@ from loguru import logger
 @logger.catch()
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkin'))
 def set_checkin(call):
-    logger.info(f'User {call.message.chat.id} selects the arrival date {call.data}')
+    logger.info(f'User "{call.message.chat.id}" selects the arrival date {call.data}')
     result, key, step = DetailedTelegramCalendar(calendar_id='checkin',
                                                  min_date=date.today(),
                                                  locale='ru').process(call.data)
@@ -33,7 +33,7 @@ def set_checkin(call):
 @logger.catch()
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkout'))
 def set_checkout(call):
-    logger.info(f'User {call.message.chat.id} selects the departure date {call.data}')
+    logger.info(f'User "{call.message.chat.id}" selects the departure date {call.data}')
     result, key, step = DetailedTelegramCalendar(calendar_id='checkout',
                                                  min_date=user_dict[call.from_user.id].checkin + timedelta(days=1),
                                                  locale='ru').process(
@@ -67,7 +67,7 @@ def set_checkout(call):
 def callback_inline(call):
     if call.data.startswith('id_loc'):
         destination_id = call.data.split()[1]
-        logger.info(f' User "{call.from_user.id}" choose destination_id "{destination_id}"')
+        logger.info(f'User "{call.from_user.id}" choose destination_id "{destination_id}"')
         user_dict[call.from_user.id].destination_id = destination_id
         bot.answer_callback_query(callback_query_id=call.id)
         bot.set_state(call.message.chat.id, StateUser.checkin)
@@ -81,7 +81,7 @@ def callback_inline(call):
 
     elif call.data.startswith('photo'):
         total_photos = call.data.split()[1]
-        logger.info(f' User "{call.from_user.id}" choose total_photos "{total_photos}"')
+        logger.info(f'User "{call.from_user.id}" choose total_photos "{total_photos}"')
         user_dict[call.from_user.id].total_photos = total_photos
         bot.answer_callback_query(callback_query_id=call.id)
         bot.set_state(call.message.chat.id, StateUser.total_hotel)
@@ -93,7 +93,7 @@ def callback_inline(call):
 
     elif call.data.startswith('hotel'):
         total_hotel = call.data.split()[1]
-        logger.info(f' User "{call.from_user.id}" choose total_hotel "{total_hotel}"')
+        logger.info(f'User "{call.from_user.id}" choose total_hotel "{total_hotel}"')
         user_dict[call.from_user.id].total_hotel = total_hotel
         bot.set_state(call.message.chat.id, StateUser.start)
         bot.edit_message_text(chat_id=call.message.chat.id,
