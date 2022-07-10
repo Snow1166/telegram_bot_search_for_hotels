@@ -24,7 +24,8 @@ logger.add('log.log', level='DEBUG', format="{time} {level} {message}", rotation
            serialize=True)
 
 delete_spans = '<([^<>]*)>'
-
+alphabet = ["а", "б", "в", "г", "д", "е", "ё", "ж", "з", "и", "й", "к", "л", "м", "н", "о",
+            "п", "р", "с", "т", "у", "ф", "х", "ц", "ч", "ш", "щ", "ъ", "ы", "ь", "э", "ю", "я", "-"]
 user_dict = dict()
 
 command_list = """

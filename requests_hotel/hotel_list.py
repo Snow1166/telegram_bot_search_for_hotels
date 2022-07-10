@@ -7,7 +7,7 @@ from loguru import logger
 @logger.catch()
 def request_hotels(querystring, user_id):
     try:
-        logger.info(f'User {user_id} request a list of hotels with parameters {querystring}')
+        logger.info(f'User "{user_id}" request a list of hotels with parameters {querystring}')
         answer = requests.get(config.url_properties_list, headers=config.hotels_headers, params=querystring, timeout=15)
         logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
         if answer.status_code == requests.codes.ok:
@@ -22,7 +22,7 @@ def request_hotels(querystring, user_id):
 @logger.catch()
 def get_hotels_list(querystring, user_id):
     json_hotel_list = request_hotels(querystring, user_id)
-    logger.info(f'User {user_id} parsing list of hotels')
+    logger.info(f'User "{user_id}" parsing list of hotels')
     hotel_list = dict()
     for hotel in json_hotel_list['data']['body']['searchResults']['results']:
         id_hotel = hotel['id']
