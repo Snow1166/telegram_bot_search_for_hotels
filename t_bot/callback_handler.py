@@ -1,6 +1,6 @@
 from config import bot, user_dict, command_list
 from database.state import StateUser
-from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice, photo_bool_choice
+from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice, photo_bool_choice, button_cancel_ready
 from t_bot.utilities.creating_list_hotels import send_hotels_list_for_user
 from telegram_bot_calendar import DetailedTelegramCalendar
 from datetime import date, timedelta
@@ -49,10 +49,11 @@ def set_checkout(call):
         user_dict[call.from_user.id].checkin = user_dict[call.from_user.id].checkin.strftime("%Y-%m-%d")
         if user_dict[call.from_user.id].command == '/bestdeal':
             bot.set_state(call.message.chat.id, StateUser.min_max_price)
-            bot.edit_message_text(chat_id=call.message.chat.id,
-                                  message_id=call.message.message_id,
-                                  text='Введите диапазон цен отелей, через пробел',
-                                  reply_markup=None)
+            user_dict[call.message.chat.id].last_message = bot.edit_message_text(
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id,
+                text='Введите диапазон цен отелей, через пробел',
+                reply_markup=button_cancel_ready())
         else:
             button = hotel_choice(call.from_user.id)
             bot.edit_message_text(chat_id=call.message.chat.id,
