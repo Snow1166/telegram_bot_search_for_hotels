@@ -59,10 +59,7 @@ def format_message_for_user(hotel, total_day):
 
 
 def city_correct(name_city):
-    for sym in name_city:
-        if sym.lower() not in alphabet:
-            return False
-    return True
+    return all(sym in alphabet for sym in name_city.lower())
 
 
 def price_correct(min_max_price):
@@ -74,12 +71,8 @@ def price_correct(min_max_price):
 
 
 def distance_correct(distance):
-    if distance.isdigit() and int(distance) > 0:
-        return True
-    return False
+    return distance.isdigit() and int(distance) > 0
 
 
 def check_user_state(state_user):
-    if state_user.endswith('command'):
-        return True
-    return False
+    return state_user.endswith('command')
