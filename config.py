@@ -31,7 +31,7 @@ user_dict = dict()
 
 command_list = """
 <b>Команды бота</b>
-/lowprice- список недорогих отелей
+/lowprice - поиск недорогих отелей
 /highprice - отели с высокими ценами
 /bestdeal - лучшие предложения
 /history - история запросов"""

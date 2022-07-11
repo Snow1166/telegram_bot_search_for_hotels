@@ -1,6 +1,7 @@
-import requests
 import re
 import json
+
+import requests
 import config
 from loguru import logger
 
@@ -20,10 +21,10 @@ def request_location(message, user_id):
         raise ConnectionError
     except TimeoutError:
         logger.error(f'User "{user_id}" request_location: {TimeoutError}')
-        return False
+        return None
     except ConnectionError:
         logger.error(f'User "{user_id}" request_location: {ConnectionError}')
-        return False
+        return None
 
 
 @logger.catch()

@@ -8,7 +8,6 @@ from loguru import logger
 @logger.catch()
 @bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
 def hotel_search(message):
-    print(bot.get_state(message.chat.id))
     if func.check_user_state(bot.get_state(message.chat.id)):
         bot.set_state(message.from_user.id,
                       StateUser.destination_id,

@@ -52,7 +52,7 @@ def set_checkout(call):
             user_dict[call.message.chat.id].last_message = bot.edit_message_text(
                 chat_id=call.message.chat.id,
                 message_id=call.message.message_id,
-                text='Введите диапазон цен отелей, через пробел',
+                text='Введите диапазон цен отелей, через пробел в рублях.',
                 reply_markup=button_cancel_ready())
         else:
             button = hotel_choice(call.from_user.id)
@@ -60,7 +60,7 @@ def set_checkout(call):
                                   message_id=call.message.message_id,
                                   text="Сколько отелей вывести для просмотра?",
                                   reply_markup=button)
-
+ты
 
 @logger.catch()
 @bot.callback_query_handler(func=lambda call: True)
@@ -98,7 +98,7 @@ def callback_inline(call):
             bot.set_state(call.message.chat.id, StateUser.command)
             bot.edit_message_text(chat_id=call.message.chat.id,
                                   message_id=call.message.message_id,
-                                  text="Подождите, ищем походящие предложения...",
+                                  text="Подождите, ищем подходящие предложения...",
                                   reply_markup=None)
             send_hotels_list_for_user(call.from_user.id)
         elif photos_bool == 'yes':
@@ -127,4 +127,13 @@ def callback_inline(call):
         bot.edit_message_text(chat_id=call.message.chat.id,
                               message_id=call.message.message_id,
                               text=command_list,
+                              reply_markup=None)
+
+    elif call.data.startswith('end'):
+        bot.set_state(call.message.chat.id, StateUser.command)
+        logger.info(f'User "{call.from_user.id}" search completed')
+        bot.answer_callback_query(callback_query_id=call.id)
+        bot.edit_message_text(chat_id=call.message.chat.id,
+                              message_id=call.message.message_id,
+                              text='Спасибо, что воспользовались ботом по поиску отелей.',
                               reply_markup=None)

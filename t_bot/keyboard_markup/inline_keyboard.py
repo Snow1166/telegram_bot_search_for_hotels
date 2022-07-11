@@ -1,7 +1,7 @@
 from requests_hotel.locations import get_locations_list
-from database.state import StateUser
 from telebot import types
 from loguru import logger
+from config import bot
 
 
 @logger.catch()
@@ -16,16 +16,11 @@ def city_markup(message, user_id):
                                                         callback_data=f'id_loc {cities[city]}'))
         destinations.add(button_cancel())
         return destinations
-    elif cities == False: #как бы тут ловить 3 сотояния? словарь, пустой словарь и False?
-        button = types.InlineKeyboardButton(text='Сервер не отвечает.'
-                                                 'Возврат в главное меню',
-                                            callback_data='cancel')
-        return destinations.add(button)
+    elif cities == False:  # как бы тут ловить 3 сотояния? словарь, пустой словарь и False?
+        bot.send_message(user_id, 'Сервер не отвечает. ')
     elif len(cities) == 0:
-        button = types.InlineKeyboardButton(text='По данному городу ничего не найдено.'
-                                                 'Возврат в главное меню',
-                                            callback_data='cancel')
-        return destinations.add(button)
+        bot.send_message(user_id, 'По данному городу ничего не найдено.')
+    return False
 
 
 @logger.catch()
@@ -69,4 +64,16 @@ def button_cancel():
 def button_cancel_ready():
     button = types.InlineKeyboardMarkup()
     button.add(button_cancel())
+    return button
+
+
+def button_server_error():
+    pass
+
+
+def after_search():
+    button = types.InlineKeyboardMarkup(row_width=1)
+    button_1 = types.InlineKeyboardButton(text='Новый поиск', callback_data='cancel')
+    button_2 = types.InlineKeyboardButton(text='Завершить', callback_data='end')
+    button.add(button_1, button_2)
     return button

@@ -12,19 +12,24 @@ def request_hotels(querystring, user_id):
         logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
         if answer.status_code == requests.codes.ok:
             hotel_list = json.loads(answer.text)
-            with open('hotel_list.json', 'w', encoding='utf-8') as file:
-                json.dump(hotel_list, file, ensure_ascii=False, indent=4)
             return hotel_list
+        raise ConnectionError
     except TimeoutError:
+        logger.error(f'User "{user_id}" request_location: {TimeoutError}')
+        return None
+    except ConnectionError:
+        logger.error(f'User "{user_id}" request_location: {ConnectionError}')
         return None
 
 
 @logger.catch()
 def get_hotels_list(querystring, user_id):
     json_hotel_list = request_hotels(querystring, user_id)
-    logger.info(f'User "{user_id}" parsing list of hotels')
-    hotel_list = dict()
-    for hotel in json_hotel_list['data']['body']['searchResults']['results']:
-        id_hotel = hotel['id']
-        hotel_list[id_hotel] = hotel
-    return hotel_list
+    if json_hotel_list:
+        logger.info(f'User "{user_id}" parsing list of hotels')
+        hotel_list = dict()
+        for hotel in json_hotel_list['data']['body']['searchResults']['results']:
+            id_hotel = hotel['id']
+            hotel_list[id_hotel] = hotel
+        return hotel_list
+    return False

@@ -15,7 +15,10 @@ def command_start(message):
     logger.info(f'User "{message.chat.id}" create a user_dict')
     logger.info(f'User "{message.chat.id}" used command "/start"')
     welcome = open('images/logo.jpg', 'rb')
-    bot.send_photo(message.chat.id, welcome, caption=command_list, reply_markup=None)
+    bot.send_photo(message.chat.id, welcome, caption="""
+Привет, я бот по поиску отелей
+Выбери необходимую команду.  """)
+    bot.send_message(message.chat.id, command_list)
 
 
 @logger.catch()
