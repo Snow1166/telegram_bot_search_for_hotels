@@ -36,7 +36,6 @@ def get_locations_list(message, user_id):
         for item in json_loc['suggestions'][0]['entities']:
             location_name = re.sub(config.delete_spans, '', item['caption'])
             locations[location_name] = item['destinationId']
-        print(locations)
         return locations
     else:
         return False
