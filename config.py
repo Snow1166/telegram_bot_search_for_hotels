@@ -15,7 +15,7 @@ url_get_hotel_photos = "https://hotels4.p.rapidapi.com/properties/get-hotel-phot
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 bot = telebot.TeleBot(BOT_TOKEN, parse_mode='html')
 
-RapidAPI_Key = os.getenv('Rapid_API_Key')
+RapidAPI_Key = os.getenv('RAPID_API_KEY')
 hotels_headers = {
     "X-RapidAPI-Key": RapidAPI_Key,
     "X-RapidAPI-Host": "hotels4.p.rapidapi.com"}
@@ -24,8 +24,9 @@ logger.add('log.log', level='DEBUG', format="{time} {level} {message}", rotation
            serialize=True)
 
 delete_spans = '<([^<>]*)>'
-alphabet = ["а", "б", "в", "г", "д", "е", "ё", "ж", "з", "и", "й", "к", "л", "м", "н", "о",
-            "п", "р", "с", "т", "у", "ф", "х", "ц", "ч", "ш", "щ", "ъ", "ы", "ь", "э", "ю", "я", "-"]
+
+alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя-"
+
 user_dict = dict()
 
 command_list = """

@@ -18,10 +18,11 @@ def get_search_city(message):
                          'В Лондоне? '
                          'https://www.youtube.com/watch?v=3-TMbwk7FvI')
     if func.city_correct(message.text):
-
         bot.set_state(message.from_user.id,
                       StateUser.checkin,
                       message.chat.id)
+
+
         logger.info(f'User "{message.chat.id}" entered the city of "{message.text} "for the search')
         button = city_markup(message.text, message.chat.id)
         bot.send_message(message.from_user.id,
@@ -35,6 +36,9 @@ def get_search_city(message):
 Название города может состоять только из русский букв.
 """,
             reply_markup=button_cancel_ready())
+
+
+
 
 
 @logger.catch()
@@ -89,3 +93,4 @@ def get_max_distance(message):
 Введите максимальное расстояние от центра.
 Число должно быть положительное.""",
             reply_markup=button_cancel_ready())
+

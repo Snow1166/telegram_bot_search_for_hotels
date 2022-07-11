@@ -9,12 +9,24 @@ def city_markup(message, user_id):
     """Создаем и возвращаем кнопки для точного определения города"""
     cities = get_locations_list(message, user_id)
     destinations = types.InlineKeyboardMarkup()
-    logger.info(f'User "{user_id}" creating buttons to accurately select the city of "{message}"')
-    for city in cities:
-        destinations.add(types.InlineKeyboardButton(text=city,
-                                                    callback_data=f'id_loc {cities[city]}'))
-    destinations.add(button_cancel())
-    return destinations
+    print(cities)
+    if cities:
+        logger.info(f'User "{user_id}" creating buttons to accurately select the city of "{message}"')
+        for city in cities:
+            destinations.add(types.InlineKeyboardButton(text=city,
+                                                        callback_data=f'id_loc {cities[city]}'))
+        destinations.add(button_cancel())
+        return destinations
+    elif cities == False: #как бы тут ловить 3 сотояния? словарь, пустой словарь и False?
+        button = types.InlineKeyboardButton(text='Сервер не отвечает.'
+                                                 'Возврат в главное меню',
+                                            callback_data='cancel')
+        return destinations.add(button)
+    elif len(cities) == 0:
+        button = types.InlineKeyboardButton(text='По данному городу ничего не найдено.'
+                                                 'Возврат в главное меню',
+                                            callback_data='cancel')
+        return destinations.add(button)
 
 
 @logger.catch()
