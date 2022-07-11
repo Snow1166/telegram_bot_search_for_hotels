@@ -25,7 +25,7 @@ logger.add('log.log', level='DEBUG', format="{time} {level} {message}", rotation
 
 delete_spans = '<([^<>]*)>'
 
-alphabet = ["абвгдеёжзийклмнопрстуфхцчшщъыьэюя-"]
+alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя-"
 
 user_dict = dict()
 
