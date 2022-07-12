@@ -33,6 +33,5 @@ def get_hotels_list(querystring, user_id):
             if func.check_distance(user_id, hotel):
                 id_hotel = hotel['id']
                 hotel_list[id_hotel] = hotel
-        print(hotel_list)
         return hotel_list
     return False

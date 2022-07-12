@@ -7,7 +7,7 @@ class User:
         self.total_day = None
         self.price_min = None
         self.price_max = None
-        self.distance = 0
+        self.distance = None
         self.total_hotel = None
         self.bool_photo = None
         self.total_photos = None

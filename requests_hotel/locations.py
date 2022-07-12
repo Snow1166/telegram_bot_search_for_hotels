@@ -29,7 +29,6 @@ def request_location(message, user_id):
 
 @logger.catch()
 def get_locations_list(message, user_id):
-    """Парсим json файл поиска города и выдаем чистый словарь с локациями"""
     json_loc = request_location(message, user_id)
     if json_loc:
         logger.info(f'User "{user_id}" parsing list location hotels')
