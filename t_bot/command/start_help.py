@@ -30,3 +30,8 @@ def command_start(message):
     logger.info(f'User "{message.chat.id}" used command "/help"')
     welcome = open('images/logo.jpg', 'rb')
     bot.send_photo(message.chat.id, welcome, caption=command_list, reply_markup=None)
+
+@logger.catch()
+@bot.message_handler(content_types=['/'])
+def unknown_command(message):
+    bot.send_message(message.chat.id, 'Извините, такая команда мне неизвестна')

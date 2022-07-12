@@ -40,7 +40,7 @@ def get_total_price(hotel, total_day):
 
 def get_site(hotel):
     try:
-        return {"site": f'https://www.hotels.com/ho{hotel["id"]}'}
+        return {"site": f'https://www.hotels.com/ho{hotel["id"]}/'}
     except KeyError:
         return {"price": "Страница не указана"}
 
@@ -50,7 +50,7 @@ def format_message_for_user(hotel, total_day):
 <b>Название отеля:</b> {hotel['name']} {hotel['starRating']}        
 <b>Адрес:</b> {hotel['address']}
 <b>Рейтинг отеля:</b> {hotel['unformattedRating']}
-<b>Страницу с отелем:</b> {hotel['site']}
+<a href="{hotel['site']}/">Страница отеля</a> 
 <b>Расположение от центра:</b> {hotel['landmarks']}
 <b>Цена за ночь:</b> {hotel['price']}
 <b>Цена за {total_day} (дня/дней):</b> {hotel['total_price']} 
