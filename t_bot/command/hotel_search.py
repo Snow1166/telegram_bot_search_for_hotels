@@ -19,3 +19,4 @@ def hotel_search(message):
                                                                    reply_markup=button_cancel_ready())
     else:
         bot.send_message(message.chat.id, 'Пожалуйста, сначала завершите предыдущий поиск.')
+
