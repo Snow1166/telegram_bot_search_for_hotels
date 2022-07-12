@@ -2,6 +2,7 @@ import requests
 import json
 import config
 from loguru import logger
+from t_bot.utilities import func
 
 
 @logger.catch()
@@ -29,7 +30,9 @@ def get_hotels_list(querystring, user_id):
         logger.info(f'User "{user_id}" parsing list of hotels')
         hotel_list = dict()
         for hotel in json_hotel_list['data']['body']['searchResults']['results']:
-            id_hotel = hotel['id']
-            hotel_list[id_hotel] = hotel
+            if func.check_distance(user_id, hotel):
+                id_hotel = hotel['id']
+                hotel_list[id_hotel] = hotel
+        print(hotel_list)
         return hotel_list
     return False
