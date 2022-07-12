@@ -60,7 +60,7 @@ def set_checkout(call):
                                   message_id=call.message.message_id,
                                   text="Сколько отелей вывести для просмотра?",
                                   reply_markup=button)
-ты
+
 
 @logger.catch()
 @bot.callback_query_handler(func=lambda call: True)

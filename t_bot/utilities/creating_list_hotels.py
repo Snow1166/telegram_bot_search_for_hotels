@@ -45,8 +45,11 @@ def send_hotels_list_for_user(user_id):
             bot.send_message(user_id, func.format_message_for_user(hotel, total_day),
                              disable_web_page_preview=True)
             if total_photo > 0:
-                media_group = [types.InputMediaPhoto(media=url) for url in hotel['photo']]
-                bot.send_media_group(user_id, media_group)
+                if hotel['photo']:
+                    media_group = [types.InputMediaPhoto(media=url) for url in hotel['photo']]
+                    bot.send_media_group(user_id, media_group)
+                else:
+                    bot.send_message(user_id, 'Фотографии не найдены.')
 
         bot.send_message(user_id, 'Начать новый поиск?',
                          reply_markup=answer_button)
