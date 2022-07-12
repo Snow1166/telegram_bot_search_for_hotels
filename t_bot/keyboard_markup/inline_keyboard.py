@@ -67,10 +67,6 @@ def button_cancel_ready():
     return button
 
 
-def button_server_error():
-    pass
-
-
 def after_search():
     button = types.InlineKeyboardMarkup(row_width=1)
     button_1 = types.InlineKeyboardButton(text='Новый поиск', callback_data='cancel')

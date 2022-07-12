@@ -26,14 +26,14 @@ def get_landmarks(hotel):
 
 def get_price(hotel):
     try:
-        return {"price": f"{(hotel['ratePlan']['price']['exactCurrent'])} руб."}
+        return {"price": f"{int(hotel['ratePlan']['price']['exactCurrent']):,} руб."}
     except KeyError:
         return {"price": "Уточняйте цену на сайте."}
 
 
 def get_total_price(hotel, total_day):
     try:
-        return {"total_price": f"{int(hotel['ratePlan']['price']['exactCurrent'] * total_day)} руб."}
+        return {"total_price": f"{int(hotel['ratePlan']['price']['exactCurrent'] * total_day):,} руб."}
     except KeyError:
         return {"total_price": "Уточняйте цену на сайте."}
 
