@@ -1,6 +1,7 @@
-import requests
 import re
 import json
+
+import requests
 import config
 from loguru import logger
 
@@ -20,15 +21,14 @@ def request_location(message, user_id):
         raise ConnectionError
     except TimeoutError:
         logger.error(f'User "{user_id}" request_location: {TimeoutError}')
-        return False
+        return None
     except ConnectionError:
         logger.error(f'User "{user_id}" request_location: {ConnectionError}')
-        return False
+        return None
 
 
 @logger.catch()
 def get_locations_list(message, user_id):
-    """Парсим json файл поиска города и выдаем чистый словарь с локациями"""
     json_loc = request_location(message, user_id)
     if json_loc:
         logger.info(f'User "{user_id}" parsing list location hotels')
@@ -36,7 +36,6 @@ def get_locations_list(message, user_id):
         for item in json_loc['suggestions'][0]['entities']:
             location_name = re.sub(config.delete_spans, '', item['caption'])
             locations[location_name] = item['destinationId']
-        print(locations)
         return locations
     else:
         return False

@@ -18,27 +18,28 @@ def get_search_city(message):
                          'В Лондоне? '
                          'https://www.youtube.com/watch?v=3-TMbwk7FvI')
     if func.city_correct(message.text):
-        bot.set_state(message.from_user.id,
-                      StateUser.checkin,
-                      message.chat.id)
-
-
-        logger.info(f'User "{message.chat.id}" entered the city of "{message.text} "for the search')
         button = city_markup(message.text, message.chat.id)
-        bot.send_message(message.from_user.id,
-                         'Уточните, пожалуйста:',
-                         reply_markup=button)
+        if button:
+            bot.set_state(message.from_user.id,
+                          StateUser.checkin,
+                          message.chat.id)
+            logger.info(f'User "{message.chat.id}" entered the city of "{message.text} "for the search')
+            bot.send_message(message.from_user.id,
+                             'Пожалуйста, уточните местонахождение:',
+                             reply_markup=button)
+        else:
+            logger.info(f'User "{message.chat.id}" no matches by city "{message.text}"')
+            user_dict[message.chat.id].last_message = bot.send_message(
+                message.from_user.id, 'В каком городе ищем гостиницу?',
+                reply_markup=button_cancel_ready())
     else:
         logger.info(f'User "{message.chat.id}" incorrect city name input "{message.text}"')
         user_dict[message.chat.id].last_message = bot.send_message(
             message.from_user.id, """
 Пожалуйста, повторите название города.
-Название города может состоять только из русский букв.
+Название города может состоять только из русских букв.
 """,
             reply_markup=button_cancel_ready())
-
-
-
 
 
 @logger.catch()
@@ -93,4 +94,3 @@ def get_max_distance(message):
 Введите максимальное расстояние от центра.
 Число должно быть положительное.""",
             reply_markup=button_cancel_ready())
-

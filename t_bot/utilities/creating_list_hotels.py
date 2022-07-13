@@ -4,6 +4,7 @@ from requests_hotel.photo_hotel import add_photo
 from telebot import types
 from config import bot, user_dict
 from loguru import logger
+from t_bot.keyboard_markup.inline_keyboard import after_search
 
 
 @logger.catch()
@@ -37,10 +38,26 @@ def send_hotels_list_for_user(user_id):
     total_hotels = user_dict[user_id].get_total_hotels()
     total_day = user_dict[user_id].total_day
     hotel_list = get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id)
-    logger.info(f'User "{user_id}" sending a list of hotels to the user')
-    for hotel in hotel_list.values():
-        bot.send_message(user_id, func.format_message_for_user(hotel, total_day),
-                         disable_web_page_preview=True)
-        if total_photo > 0:
-            media_group = [types.InputMediaPhoto(media=url) for url in hotel['photo']]
-            bot.send_media_group(user_id, media_group)
+    answer_button = after_search()
+    if hotel_list:
+        logger.info(f'User "{user_id}" sending a list of hotels to the user')
+        for hotel in hotel_list.values():
+            bot.send_message(user_id, func.format_message_for_user(hotel, total_day),
+                             disable_web_page_preview=True)
+            if total_photo > 0:
+                if hotel['photo']:
+                    media_group = [types.InputMediaPhoto(media=url) for url in hotel['photo']]
+                    bot.send_media_group(user_id, media_group)
+                else:
+                    bot.send_message(user_id, 'Фотографии не найдены.')
+
+        bot.send_message(user_id, 'Начать новый поиск?',
+                         reply_markup=answer_button)
+    elif hotel_list == False:
+        logger.info(f'User "{user_id}" error on the server')
+        bot.send_message(user_id, 'Сервер не отвечает, попробуйте повторить запрос позже.',
+                         reply_markup=answer_button)
+    elif len(hotel_list) == 0:
+        logger.info(f'User "{user_id}" no hotels found')
+        bot.send_message(user_id, 'Ничего не найдено, попробуйте изменить параметры поиска.',
+                         reply_markup=answer_button)

@@ -4,9 +4,12 @@ import telebot
 import os
 
 if not find_dotenv():
-    print('не найден')
+    logger.error('find_dotenv not found ')
 else:
     load_dotenv()
+
+DEBUG = True
+
 
 url_properties_list = "https://hotels4.p.rapidapi.com/properties/list"
 url_search_locations = "https://hotels4.p.rapidapi.com/locations/v2/search"
@@ -31,7 +34,7 @@ user_dict = dict()
 
 command_list = """
 <b>Команды бота</b>
-/lowprice- список недорогих отелей
+/lowprice - поиск недорогих отелей
 /highprice - отели с высокими ценами
 /bestdeal - лучшие предложения
 /history - история запросов"""
