@@ -18,13 +18,11 @@ def request_location(message, user_id):
         if answer.status_code == requests.codes.ok:
             locations = json.loads(answer.text)
             return locations
-        raise ConnectionError
-    except TimeoutError:
-        logger.error(f'User "{user_id}" request_location: {TimeoutError}')
-        return None
-    except ConnectionError:
-        logger.error(f'User "{user_id}" request_location: {ConnectionError}')
-        return None
+        raise ConnectionError(f'Connection Error {answer.status_code}')
+    except (requests.exceptions.ReadTimeout,
+            requests.exceptions.ConnectionError,
+            ConnectionError) as ex:
+        logger.error(f'User "{user_id}" request_location: {ex}')
 
 
 @logger.catch()
@@ -37,5 +35,4 @@ def get_locations_list(message, user_id):
             location_name = re.sub(config.delete_spans, '', item['caption'])
             locations[location_name] = item['destinationId']
         return locations
-    else:
-        return False
+

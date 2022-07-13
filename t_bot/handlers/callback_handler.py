@@ -49,7 +49,7 @@ def set_checkout(call):
         user_dict[call.from_user.id].checkin = user_dict[call.from_user.id].checkin.strftime("%Y-%m-%d")
         if user_dict[call.from_user.id].command == '/bestdeal':
             bot.set_state(call.message.chat.id, StateUser.min_max_price)
-            user_dict[call.message.chat.id].last_message = bot.edit_message_text(
+            user_dict[call.message.chat.id].last_message_bot = bot.edit_message_text(
                 chat_id=call.message.chat.id,
                 message_id=call.message.message_id,
                 text='Введите диапазон цен отелей, через пробел в рублях.',

@@ -6,7 +6,7 @@ from t_bot.utilities import func
 
 
 @logger.catch()
-def request_hotels(querystring, user_id):
+def api_request_hotels(querystring, user_id):
     try:
         logger.info(f'User "{user_id}" request a list of hotels with parameters {querystring}')
         answer = requests.get(config.url_properties_list, headers=config.hotels_headers, params=querystring, timeout=15)
@@ -14,18 +14,16 @@ def request_hotels(querystring, user_id):
         if answer.status_code == requests.codes.ok:
             hotel_list = json.loads(answer.text)
             return hotel_list
-        raise ConnectionError
-    except TimeoutError:
-        logger.error(f'User "{user_id}" request_location: {TimeoutError}')
-        return None
-    except ConnectionError:
-        logger.error(f'User "{user_id}" request_location: {ConnectionError}')
-        return None
+        raise ConnectionError(f'Connection Error {answer.status_code}')
+    except (requests.exceptions.ReadTimeout,
+            requests.exceptions.ConnectionError,
+            ConnectionError) as ex:
+        logger.error(f'User "{user_id}" request_hotels: {ex}')
 
 
 @logger.catch()
-def get_hotels_list(querystring, user_id):
-    json_hotel_list = request_hotels(querystring, user_id)
+def api_get_hotels_list(querystring, user_id):
+    json_hotel_list = api_request_hotels(querystring, user_id)
     if json_hotel_list:
         logger.info(f'User "{user_id}" parsing list of hotels')
         hotel_list = dict()
@@ -34,4 +32,3 @@ def get_hotels_list(querystring, user_id):
                 id_hotel = hotel['id']
                 hotel_list[id_hotel] = hotel
         return hotel_list
-    return False

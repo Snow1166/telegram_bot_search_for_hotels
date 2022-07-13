@@ -79,11 +79,8 @@ def check_user_state(state_user):
 
 
 def check_distance(user_id, hotel):
-    if user_dict[user_id].command == '/bestdeal':
-        try:
-            if float(user_dict[user_id].distance) >= float(hotel['landmarks'][0]["distance"].replace(',', '.').split()[0]):
-                return True
-            return False
-        except KeyError:
-            return False
-    return True
+    if user_dict[user_id].command != '/bestdeal':
+        return True
+    dist = hotel.get('landmarks', [{}])[0].get('distance')
+    if float(user_dict[user_id].distance) >= float(dist.replace(',', '.').split()[0]):
+        return True

@@ -14,9 +14,9 @@ def hotel_search(message):
                       message.chat.id)
         logger.info(f'User "{message.chat.id}" used the search command "{message.text}"')
         user_dict[message.chat.id].command = message.text
-        user_dict[message.chat.id].last_message = bot.send_message(message.from_user.id,
+        user_dict[message.chat.id].last_message_bot = bot.send_message(message.from_user.id,
                                                                    'В каком городе ищем гостиницу?',
-                                                                   reply_markup=button_cancel_ready())
+                                                                       reply_markup=button_cancel_ready())
     else:
         bot.send_message(message.chat.id, 'Пожалуйста, сначала завершите предыдущий поиск.')
 

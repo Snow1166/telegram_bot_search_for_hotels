@@ -1,7 +1,6 @@
-from requests_hotel.locations import get_locations_list
+from rapid_hotel.api_locations import get_locations_list
 from telebot import types
 from loguru import logger
-from config import bot
 
 
 @logger.catch()
@@ -16,11 +15,7 @@ def city_markup(message, user_id):
                                                         callback_data=f'id_loc {cities[city]}'))
         destinations.add(button_cancel())
         return destinations
-    elif cities == False:  # как бы тут ловить 3 сотояния? словарь, пустой словарь и False?
-        bot.send_message(user_id, 'Сервер не отвечает. ')
-    elif len(cities) == 0:
-        bot.send_message(user_id, 'По данному городу ничего не найдено.')
-    return False
+    return cities
 
 
 @logger.catch()

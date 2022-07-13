@@ -13,7 +13,7 @@ class User:
         self.total_photos = None
         self.locale = "ru_RU"
         self.currency = "RUB"
-        self.last_message = None
+        self.last_message_bot = None
 
     def get_querystring(self):
         querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
