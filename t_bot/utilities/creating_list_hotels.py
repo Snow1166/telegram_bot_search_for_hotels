@@ -2,10 +2,10 @@ from t_bot.utilities import func
 from rapid_hotel.api_hotel_list import api_get_hotels_list
 from rapid_hotel.api_photo_hotel import add_photo
 from telebot import types
-from config import user_dict
 from loader import bot
 from loguru import logger
 from t_bot.keyboard_markup.inline_keyboard import after_search
+from database.users import User
 
 
 @logger.catch()
@@ -36,10 +36,11 @@ def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user
 
 @logger.catch()
 def send_hotels_list_for_user(user_id):
-    querystring = user_dict[user_id].get_querystring()
-    total_photo = user_dict[user_id].get_total_photo()
-    total_hotels = user_dict[user_id].get_total_hotels()
-    total_day = user_dict[user_id].total_day
+    user = User.get_user(user_id)
+    querystring = user.get_querystring()
+    total_photo = user.get_total_photo()
+    total_hotels = user.get_total_hotels()
+    total_day = user.total_day
     hotel_list = get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id)
     answer_button = after_search()
     if hotel_list:

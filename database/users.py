@@ -1,6 +1,8 @@
 class User:
-    def __init__(self):
-        self.command = None
+    all_users = dict()
+
+    def __init__(self, user_id):
+        self.command = 'start'
         self.destination_id = None
         self.checkin = None
         self.checkout = None
@@ -14,6 +16,18 @@ class User:
         self.locale = "ru_RU"
         self.currency = "RUB"
         self.last_message_bot = None
+        User.add_user(user_id, self)
+
+    @staticmethod
+    def get_user(user_id):
+        if User.all_users.get(user_id) is None:
+            new_user = User(user_id)
+            return new_user
+        return User.all_users.get(user_id)
+
+    @classmethod
+    def add_user(cls, user_id, user):
+        cls.all_users[user_id] = user
 
     def get_querystring(self):
         querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",

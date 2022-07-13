@@ -1,14 +1,11 @@
-from config import bot, user_dict, command_list
+from config import bot, command_list
 from database.state import StateUser
-from database.users import User
 from loguru import logger
 
 
 @logger.catch()
 @bot.message_handler(commands=['start'])
 def command_start(message):
-    # bot.send_sticker(message.chat.id, 'CAADAgADsQADWQMDAAEJK1niI56hlhYE')
-    user_dict[message.from_user.id] = User()
     bot.set_state(message.from_user.id,
                   StateUser.command,
                   message.chat.id)
