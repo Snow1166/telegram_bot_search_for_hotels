@@ -14,13 +14,11 @@ def request_photo(id_hotel, user_id):
             if answer.status_code == requests.codes.ok:
                 photo_list = json.loads(answer.text)
                 return photo_list
-            raise ConnectionError
-        except TimeoutError:
-            logger.error(f'User "{user_id}" request_location: {TimeoutError}')
-            return None
-        except ConnectionError:
-            logger.error(f'User "{user_id}" request_location: {ConnectionError}')
-            return None
+            raise ConnectionError(f'Connection Error {answer.status_code}')
+        except (requests.exceptions.ReadTimeout,
+                requests.exceptions.ConnectionError,
+                ConnectionError) as ex:
+            logger.error(f'User "{user_id}" request_photos: {ex}')
     else:
         with open('photo_list.json', 'r', encoding='utf-8') as file:
             photo_list = json.load(file)

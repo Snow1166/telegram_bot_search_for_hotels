@@ -1,4 +1,5 @@
-from config import alphabet, user_dict
+from config import alphabet
+from database.users import User
 
 
 def get_name(hotel):
@@ -74,16 +75,10 @@ def distance_correct(distance):
     return distance.isdigit() and int(distance) > 0
 
 
-def check_user_state(state_user):
-    return state_user.endswith('command')
-
-
 def check_distance(user_id, hotel):
-    if user_dict[user_id].command == '/bestdeal':
-        try:
-            if float(user_dict[user_id].distance) >= float(hotel['landmarks'][0]["distance"].replace(',', '.').split()[0]):
-                return True
-            return False
-        except KeyError:
-            return False
-    return True
+    user = User.get_user(user_id)
+    if user.command != '/bestdeal':
+        return True
+    dist = hotel.get('landmarks', [{}])[0].get('distance')
+    if float(user.distance) >= float(dist.replace(',', '.').split()[0]):
+        return True
