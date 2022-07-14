@@ -32,7 +32,7 @@ def get_locations_list(message, user_id):
         logger.info(f'User "{user_id}" parsing list location hotels')
         locations = dict()
         for item in json_loc['suggestions'][0]['entities']:
-            location_name = re.sub(config.delete_spans, '', item['caption'])
+            location_name = re.sub(config.pattern_delete_spans, '', item['caption'])
             locations[location_name] = item['destinationId']
         return locations
 

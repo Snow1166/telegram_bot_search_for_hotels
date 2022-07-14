@@ -21,6 +21,7 @@ def get_search_city(message):
     if func.city_correct(message.text):
         button = city_markup(message.text, message.chat.id)
         if button:
+            user.city_search = message.text
             bot.set_state(message.from_user.id,
                           StateUser.checkin,
                           message.chat.id)

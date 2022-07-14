@@ -2,8 +2,9 @@ class User:
     all_users = dict()
 
     def __init__(self, user_id):
-        self.command = 'start'
+        self.command = None
         self.destination_id = None
+        self.city_search = None
         self.checkin = None
         self.checkout = None
         self.total_day = None

@@ -1,11 +1,12 @@
 from config import bot, command_list
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice, photo_bool_choice, button_cancel_ready
-from t_bot.utilities.creating_list_hotels import send_hotels_list_for_user
+from t_bot.command.hotel_search import send_hotels_list_for_user
 from telegram_bot_calendar import DetailedTelegramCalendar
 from datetime import date, timedelta
 from loguru import logger
 from database.users import User
+
 
 @logger.catch()
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkin'))
