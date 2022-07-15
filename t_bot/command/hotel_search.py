@@ -1,3 +1,5 @@
+import json
+
 from t_bot.keyboard_markup.inline_keyboard import button_cancel_ready
 from database.state import StateUser
 from t_bot.utilities import func
@@ -61,9 +63,8 @@ def send_hotels_list_for_user(user_id):
     answer_button = after_search()
     if hotel_list:
         logger.info(f'User "{user_id}" sending a list of hotels to the user')
-        history_hotel_list = list()
+        add_request_db(user_id, user.command, user.city_search, json.dumps(hotel_list))
         for hotel in hotel_list.values():
-            history_hotel_list.append(hotel)
             bot.send_message(user_id, func.format_message_for_user(hotel, total_day),
                              disable_web_page_preview=True)
             if total_photo > 0:
@@ -72,7 +73,6 @@ def send_hotels_list_for_user(user_id):
                     bot.send_media_group(user_id, media_group)
                 else:
                     bot.send_message(user_id, 'Фотографии не найдены.')
-        add_request_db(user_id, user.command, user.city_search, history_hotel_list)
         bot.send_message(user_id, 'Начать новый поиск?',
                          reply_markup=answer_button)
     else:

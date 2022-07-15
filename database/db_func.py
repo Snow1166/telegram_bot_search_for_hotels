@@ -1,5 +1,5 @@
 from database.db_models import db, UserRequest
-from database.users import User
+import json
 
 
 def add_request_db(id_user, command, name_city, hotel_list):
@@ -18,6 +18,6 @@ def get_request_db(user):
             request = ({'data': data.created_date,
                         'command': data.command,
                         'city': data.name_city,
-                        'hotel_list': data.hotel_list})
+                        'hotel_list': json.loads(data.hotel_list)})
             history_list.append(request)
     return history_list

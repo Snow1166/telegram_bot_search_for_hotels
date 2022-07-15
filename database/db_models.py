@@ -13,7 +13,7 @@ class BaseModel(Model):
 
 class UserRequest(BaseModel):
     id_user = IntegerField()
-    command = IntegerField()
+    command = CharField()
     name_city = CharField()
     hotel_list = CharField()
     created_date = DateTimeField(default=datetime.datetime.now())
