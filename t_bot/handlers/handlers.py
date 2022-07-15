@@ -35,7 +35,7 @@ def get_search_city(message):
             if button is None:
                 user.last_message_bot = bot.send_message(
                     message.from_user.id, """
-Ошибка сервера, попробуйте еще раз
+Сервер не отвечает, попробуйте еще раз
 В каком городе ищем гостиницу?""",
                     reply_markup=button_cancel_ready())
             else:
@@ -49,7 +49,7 @@ def get_search_city(message):
         logger.info(f'User "{message.chat.id}" incorrect city name input "{message.text}"')
         user.last_message_bot = bot.send_message(
             message.from_user.id, """
-Пожалуйста, повторите название города.
+Пожалуйста, введите название города.
 Название города может состоять только из русских букв.
 """,
             reply_markup=button_cancel_ready())

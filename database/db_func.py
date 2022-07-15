@@ -1,8 +1,15 @@
+from typing import Dict, List
 from database.db_models import db, UserRequest
 import json
 
 
-def add_request_db(id_user, command, name_city, hotel_list):
+def add_request_db(id_user: int, command: str, name_city: str, hotel_list: dict) -> None:
+    """
+    Функция для добавления данный в базу данных.
+    Args:
+        id_user
+
+    """
     with db:
         UserRequest.create(id_user=id_user,
                            command=command,
@@ -11,7 +18,7 @@ def add_request_db(id_user, command, name_city, hotel_list):
                            )
 
 
-def get_request_db(user):
+def get_request_db(user: int) -> list:
     with db:
         history_list = list()
         for data in UserRequest.select().where(UserRequest.id_user == user):

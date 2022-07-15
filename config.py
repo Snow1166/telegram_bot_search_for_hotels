@@ -8,7 +8,7 @@ if not find_dotenv():
 else:
     load_dotenv()
 
-DEBUG = True
+DEBUG = False
 DEBUG_save_requests = False
 
 url_properties_list = "https://hotels4.p.rapidapi.com/properties/list"
@@ -42,4 +42,5 @@ command_list = """
 /lowprice - поиск недорогих отелей
 /highprice - отели с высокими ценами
 /bestdeal - лучшие предложения
-/history - история запросов"""
+/history - история запросов
+/help - помощь по командам бота"""
