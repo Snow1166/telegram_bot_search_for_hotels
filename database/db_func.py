@@ -2,7 +2,7 @@ from database.db_models import db, UserRequest
 import json
 
 
-def add_request_db(id_user: int, command: str, name_city: str, hotel_list: dict) -> None:
+def add_request_db(id_user: int, command: str, name_city: str, hotel_list: json) -> None:
     """
     Функция для добавления данный в базу данных.
     Args:

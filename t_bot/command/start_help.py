@@ -1,11 +1,16 @@
 from config import bot, command_list
-from database.state import StateUser
+from telebot.types import Message
 from loguru import logger
 
 
 @logger.catch()
 @bot.message_handler(commands=['start'])
-def command_start(message):
+def command_start(message: Message) -> None:
+    """
+    Отлавливает команду start,
+    отправляет пользователю приветственное сообщение и список команд.
+    :param message: сообщение пользователя
+    """
     sticker_hello = 'CAACAgIAAxkBAAEWA7hi0UsBZWQDmcBFYA25gZnWohcWbQAChxUAAj0PUEnem2b91sejvykE'
     logger.info(f'User "{message.chat.id}" used command "/start"')
     bot.send_sticker(message.chat.id, sticker_hello)
@@ -17,7 +22,11 @@ def command_start(message):
 
 @logger.catch()
 @bot.message_handler(commands=['help'])
-def command_start(message):
+def command_start(message: Message) -> None:
+    """
+    Отлавливает команду help и отправляет пользователю список команд бота.
+    :param message: сообщение пользователя
+    """
     sticker_help = 'CAACAgIAAxkBAAEWA9li0UwRePc9fF3eBRMIXAb7qIH5TAACwxMAAm3oEEqGY8B94dy6NCkE'
     logger.info(f'User "{message.chat.id}" used command "/help"')
     bot.send_sticker(message.chat.id, sticker_help)

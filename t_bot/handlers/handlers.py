@@ -4,11 +4,18 @@ from t_bot.keyboard_markup.inline_keyboard import city_markup, hotel_choice, but
 from loguru import logger
 from t_bot.utilities import func
 from database.users import User
+from telebot.types import Message
 
 
 @logger.catch()
 @bot.message_handler(state=StateUser.destination_id)
-def get_search_city(message):
+def get_search_city(message: Message) -> None:
+    """
+    Получает сообщение от пользователя при состоянии destination_id.
+    Вызывает функцию создания кнопок и отправляет их пользователю.
+    :param message: сообщение от пользователя
+    :return:
+    """
     user = User.get_user(message.chat.id)
     bot.edit_message_text(chat_id=message.chat.id,
                           message_id=user.last_message_bot.message_id,
@@ -57,7 +64,12 @@ def get_search_city(message):
 
 @logger.catch()
 @bot.message_handler(state=StateUser.min_max_price)
-def get_min_max_price(message):
+def get_min_max_price(message: Message) -> None:
+    """
+    Получает сообщение от пользователя при состоянии min_max_price.
+    Сохраняет диапазон цен отелей и запрашивает у пользователя дистанцию от центра.
+    :param message: сообщение от пользователя
+    """
     user = User.get_user(message.chat.id)
     bot.edit_message_text(chat_id=message.chat.id,
                           message_id=user.last_message_bot.message_id,
@@ -86,7 +98,12 @@ def get_min_max_price(message):
 
 @logger.catch()
 @bot.message_handler(state=StateUser.distance)
-def get_max_distance(message):
+def get_max_distance(message: Message)-> None:
+    """
+    Получает сообщение от пользователя при состоянии distance.
+    Сохраняет дистанцию и запрашивает у пользователя количество отелей.
+    :param message: сообщение от пользователя
+    """
     user = User.get_user(message.chat.id)
     bot.edit_message_text(chat_id=message.chat.id,
                           message_id=user.last_message_bot.message_id,

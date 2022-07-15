@@ -11,10 +11,19 @@ from loguru import logger
 from t_bot.keyboard_markup.inline_keyboard import after_search
 from database.users import User
 from database.db_func import add_request_db
+from telebot.types import Message
+
 
 @logger.catch()
 @bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
-def hotel_search(message):
+def hotel_search(message: Message) -> None:
+    """
+    Отлавливает команды поиска 'lowprice', 'highprice', 'bestdeal',
+    запрашивает у пользователя искомый город,
+    меняет состояние пользователя на destination_id
+    :param message: сообщение пользователя с названием города
+    :return:
+    """
     user = User.get_user(message.chat.id)
     bot.set_state(message.from_user.id,
                   StateUser.destination_id,
@@ -27,7 +36,16 @@ def hotel_search(message):
 
 
 @logger.catch()
-def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id):
+def get_final_hotel_list(querystring: dict, total_hotels: int, total_photo: int, total_day: int, user_id: int) -> dict:
+    """
+    Вызывает функцию с запросом у api словаря с отелями,
+    формирует итоговый список отелей для пользователя и добавляет фотографии.
+    :param querystring: строка запроса
+    :param total_hotels: количество отелей
+    :param total_photo: количество фотографии
+    :param total_day: количество дней
+    :param user_id: id пользователя
+    """
     hotel_list = api_get_hotels_list(querystring, user_id)
     ready_list_hotels = dict()
     logger.info(f'User "{user_id}" creating a final list of hotels')
@@ -53,7 +71,13 @@ def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user
 
 
 @logger.catch()
-def send_hotels_list_for_user(user_id):
+def send_hotels_list_for_user(user_id: int) -> None:
+    """
+    Формирует строку запроса,
+    вызывает функции для формирования списка отелей
+    и отправляет их в чат пользователю.
+    :param user_id: id пользователя
+    """
     user = User.get_user(user_id)
     querystring = user.get_querystring()
     total_photo = user.get_total_photo()
