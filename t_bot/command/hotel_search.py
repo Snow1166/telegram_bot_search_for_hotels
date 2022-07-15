@@ -61,6 +61,7 @@ def send_hotels_list_for_user(user_id):
     total_day = user.total_day
     hotel_list = get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id)
     answer_button = after_search()
+    bot.delete_message(user_id, user.last_message_bot.message_id)
     if hotel_list:
         logger.info(f'User "{user_id}" sending a list of hotels to the user')
         add_request_db(user_id, user.command, user.city_search, json.dumps(hotel_list))

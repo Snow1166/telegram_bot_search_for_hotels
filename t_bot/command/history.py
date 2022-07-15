@@ -8,6 +8,7 @@ from t_bot.utilities import func
 @logger.catch()
 @bot.message_handler(commands=['history'])
 def send_history(message):
+
     history = get_request_db(message.chat.id)
     for i_hist in history:
         message_s = f"""
@@ -23,6 +24,9 @@ def send_history(message):
 @logger.catch()
 @bot.message_handler()
 def unknown_command(message):
+    sticker = 'CAACAgIAAxkBAAEWAqpi0TgZuLaB1AXOqHLVwkKlGB106QACYhgAAjx6UEnKFDnPOcbwvykE'
+    bot.send_sticker(message.chat.id, sticker)
     bot.send_message(message.chat.id, """
 Извините, я вас не понимаю.
 Нажмите /help для получения списка команд""")
+

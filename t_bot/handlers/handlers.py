@@ -1,4 +1,4 @@
-from config import bot
+from config import bot, sticker
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import city_markup, hotel_choice, button_cancel_ready
 from loguru import logger
@@ -19,7 +19,9 @@ def get_search_city(message):
                          'В Лондоне? '
                          'https://www.youtube.com/watch?v=3-TMbwk7FvI')
     if func.city_correct(message.text):
+        user.last_message_bot = bot.send_sticker(message.chat.id, sticker)
         button = city_markup(message.text, message.chat.id)
+        bot.delete_message(message.chat.id, user.last_message_bot.message_id)
         if button:
             user.city_search = message.text
             bot.set_state(message.from_user.id,

@@ -32,6 +32,8 @@ pattern_delete_spans = '<([^<>]*)>'
 
 alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя-"
 
+sticker = 'CAACAgIAAxkBAAEWAqhi0TfnjiiCWkPDOtdwHmizZrHPLgACgBgAAsC2UEmimzNNrlDPPCkE'
+
 user_dict = dict()
 db.create_tables([UserRequest])
 
