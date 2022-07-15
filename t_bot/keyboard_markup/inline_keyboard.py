@@ -1,5 +1,4 @@
 from telebot.types import InlineKeyboardMarkup
-
 from rapid_hotel.api_locations import get_locations_list
 from telebot import types
 from loguru import logger
@@ -26,7 +25,7 @@ def city_markup(message: str, user_id: str) -> InlineKeyboardMarkup | dict:
 
 
 @logger.catch()
-def photo_bool_choice(user_id: str) -> InlineKeyboardMarkup:
+def photo_bool_choice(user_id) -> InlineKeyboardMarkup:
     """
     Создает InlineKeyboardMarkup для выбора необходимости фотографий
     :param user_id: id пользователя.
@@ -42,7 +41,7 @@ def photo_bool_choice(user_id: str) -> InlineKeyboardMarkup:
 
 
 @logger.catch()
-def photo_choice(user_id: str) -> InlineKeyboardMarkup:
+def photo_choice(user_id ) -> InlineKeyboardMarkup:
     """
     Создает InlineKeyboardMarkup для выбора количества фотографий
     :param user_id: id пользователя.
@@ -58,7 +57,7 @@ def photo_choice(user_id: str) -> InlineKeyboardMarkup:
 
 
 @logger.catch()
-def hotel_choice(user_id: str) -> InlineKeyboardMarkup:
+def hotel_choice(user_id) -> InlineKeyboardMarkup:
     """
     Создает InlineKeyboardMarkup для выбора количества отелей
     :param user_id: id пользователя.

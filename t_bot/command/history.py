@@ -10,9 +10,9 @@ from t_bot.keyboard_markup.inline_keyboard import after_search
 @bot.message_handler(commands=['history'])
 def send_history(message: Message) -> None:
     """
-    Отлавливает команду history
-    и отправляет пользователю историю его запросов.
-    :param message: сообщение пользователя
+    Catches the history command
+    and sends the user a history of his requests.
+    :param message: user's message
     """
     history = get_request_db(message.chat.id)
     answer_button = after_search()
@@ -38,9 +38,9 @@ def send_history(message: Message) -> None:
 @bot.message_handler()
 def unknown_command(message: Message) -> None:
     """
-    Отлавливает нераспознанные сообщения
-    и отправляет пользователю соответствующую информацию.
-    :param message: сообщение пользователя
+    Catches unrecognized messages
+    and sends the relevant information to the user.
+    :param message: user's message
     """
     sticker = 'CAACAgIAAxkBAAEWAqpi0TgZuLaB1AXOqHLVwkKlGB106QACYhgAAjx6UEnKFDnPOcbwvykE'
     bot.send_sticker(message.chat.id, sticker)

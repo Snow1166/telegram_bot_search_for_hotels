@@ -18,10 +18,10 @@ from telebot.types import Message
 @bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
 def hotel_search(message: Message) -> None:
     """
-    Отлавливает команды поиска 'lowprice', 'highprice', 'bestdeal',
-    запрашивает у пользователя искомый город,
-    меняет состояние пользователя на destination_id
-    :param message: сообщение пользователя с названием города
+    Catches the search commands 'lowprice', 'highprice', 'best deal',
+    requests the desired city from the user,
+    changes the user's state to destination_id
+    :param message: user's message with the name of the city
     :return:
     """
     user = User.get_user(message.chat.id)
@@ -36,15 +36,15 @@ def hotel_search(message: Message) -> None:
 
 
 @logger.catch()
-def get_final_hotel_list(querystring: dict, total_hotels: int, total_photo: int, total_day: int, user_id: int) -> dict:
+def get_final_hotel_list(querystring: dict, total_hotels: int, total_photo: int, total_day: int, user_id: str) -> dict:
     """
-    Вызывает функцию с запросом у api словаря с отелями,
-    формирует итоговый список отелей для пользователя и добавляет фотографии.
-    :param querystring: строка запроса
-    :param total_hotels: количество отелей
-    :param total_photo: количество фотографии
-    :param total_day: количество дней
-    :param user_id: id пользователя
+    Calls a function with a request from the dictionary api with hotels,
+generates a final list of hotels for the user and adds photos.
+    :param querystring: query string
+    :param total_hotels: number of hotels
+    :param total_photo: number of photos
+    :param total_day: number of days
+    :param user_id: user id
     """
     hotel_list = api_get_hotels_list(querystring, user_id)
     ready_list_hotels = dict()
@@ -71,12 +71,13 @@ def get_final_hotel_list(querystring: dict, total_hotels: int, total_photo: int,
 
 
 @logger.catch()
-def send_hotels_list_for_user(user_id: int) -> None:
+def send_hotels_list_for_user(user_id) -> None:
     """
-    Формирует строку запроса,
-    вызывает функции для формирования списка отелей
-    и отправляет их в чат пользователю.
-    :param user_id: id пользователя
+    Generates a query string,
+    calls functions to generate a list of hotels
+    and sends them to the chat to the user.
+    :rtype: object
+    :param user_id: str
     """
     user = User.get_user(user_id)
     querystring = user.get_querystring()

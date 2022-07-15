@@ -1,8 +1,5 @@
 class User:
-    """
-    Создание класса пользователя для сбора данных опроса
-    и возвращения строки запроса дла api отелей
-    """
+    """ Creates a user in the dictionary"""
     all_users = dict()
 
     def __init__(self, user_id: int) -> None:
@@ -26,10 +23,10 @@ class User:
     @staticmethod
     def get_user(user_id):
         """
-        Принимает id пользователя и проверяет наличия значения в словаре
-        В случае отсутствия id пользователя, добавляет его в словарь.
+        Accepts the user id and checks for the presence of a value in the dictionary
+        If there is no user id, adds it to the dictionary.
         :param user_id:
-        :return: возвращает id пользователя из словаря
+        :return: returns the user id from the dictionary
         """
         if User.all_users.get(user_id) is None:
             new_user = User(user_id)
@@ -38,12 +35,12 @@ class User:
 
     @classmethod
     def add_user(cls, user_id, user):
-        """ Создает пользователя в словаре"""
+        """ Creates a user in the dictionary"""
         cls.all_users[user_id] = user
 
     def get_querystring(self) -> dict:
-        """Создание и возвращение строки запроса и
-        корректирование его в зависимости от введенной команды пользователя"""
+        """Creating and returning a query string and
+        adjusting it depending on the user's entered command"""
         querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
                        "checkIn": self.checkin, "checkOut": self.checkout, "adults1": "1",
                        "sortOrder": "PRICE", "locale": self.locale, "currency": self.currency}

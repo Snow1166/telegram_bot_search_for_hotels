@@ -7,9 +7,9 @@ from loguru import logger
 @bot.message_handler(commands=['start'])
 def command_start(message: Message) -> None:
     """
-    Отлавливает команду start,
-    отправляет пользователю приветственное сообщение и список команд.
-    :param message: сообщение пользователя
+    Catches the start command,
+    sends the user a welcome message and a list of commands.
+    :param message: user's message
     """
     sticker_hello = 'CAACAgIAAxkBAAEWA7hi0UsBZWQDmcBFYA25gZnWohcWbQAChxUAAj0PUEnem2b91sejvykE'
     logger.info(f'User "{message.chat.id}" used command "/start"')
@@ -24,8 +24,8 @@ def command_start(message: Message) -> None:
 @bot.message_handler(commands=['help'])
 def command_start(message: Message) -> None:
     """
-    Отлавливает команду help и отправляет пользователю список команд бота.
-    :param message: сообщение пользователя
+    Catches the help command and sends the user a list of bot commands.
+    :param message: user's message
     """
     sticker_help = 'CAACAgIAAxkBAAEWA9li0UwRePc9fF3eBRMIXAb7qIH5TAACwxMAAm3oEEqGY8B94dy6NCkE'
     logger.info(f'User "{message.chat.id}" used command "/help"')

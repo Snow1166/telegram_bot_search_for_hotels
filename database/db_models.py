@@ -6,7 +6,7 @@ db = SqliteDatabase('users.db')
 
 class BaseModel(Model):
     """
-    Создание базовой модели
+    Creating a basic model
     """
 
     class Meta:
@@ -16,9 +16,9 @@ class BaseModel(Model):
 
 class UserRequest(BaseModel):
     """
-    Создание формы таблицы базы данных
+    Creating a database table form
     """
-    id_user = IntegerField()
+    id_user = CharField()
     command = CharField()
     name_city = CharField()
     hotel_list = CharField()

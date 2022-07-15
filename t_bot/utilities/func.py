@@ -4,7 +4,7 @@ from database.users import User
 
 def get_name(hotel: dict) -> dict:
     """
-    Получает название отеля из словаря
+    Gets the name of the hotel from the dictionary
     :param hotel: dict
     :return: dict
     """
@@ -13,7 +13,7 @@ def get_name(hotel: dict) -> dict:
 
 def get_address(hotel: dict) -> dict:
     """
-    Получает название улицы из словаря
+    Gets the street name from the dictionary
     :param hotel: dict
     :return: dict
     """
@@ -22,7 +22,7 @@ def get_address(hotel: dict) -> dict:
 
 def get_star_rating(hotel: dict) -> dict:
     """
-    Получает звёздный рейтинг из словаря
+    Gets a star rating from the dictionary
     :param hotel: dict
     :return: dict
     """
@@ -34,7 +34,7 @@ def get_star_rating(hotel: dict) -> dict:
 
 def get_unformatted_rating(hotel: dict) -> dict:
     """
-    Получает рейтинг из словаря
+    Gets a rating from the dictionary
     :param hotel: dict
     :return: dict
     """
@@ -43,7 +43,7 @@ def get_unformatted_rating(hotel: dict) -> dict:
 
 def get_landmarks(hotel: dict) -> dict:
     """
-    Получает дистанцию от центра из словаря
+    Gets the distance from the center from the dictionary
     :param hotel: dict
     :return: dict
     """
@@ -52,7 +52,7 @@ def get_landmarks(hotel: dict) -> dict:
 
 def get_price(hotel: dict) -> dict:
     """
-    Получает цену из словаря
+    Gets the price from the dictionary
     :param hotel: dict
     :return: dict
     """
@@ -64,8 +64,9 @@ def get_price(hotel: dict) -> dict:
 
 def get_total_price(hotel: dict, total_day: int) -> dict:
     """
-    Получает итоговую цену из словаря
+    Gets the final price from the dictionary
     :param hotel: dict
+    :param total_day: int
     :return: dict
     """
     try:
@@ -76,7 +77,7 @@ def get_total_price(hotel: dict, total_day: int) -> dict:
 
 def get_site(hotel: dict) -> dict:
     """
-    Получает ссылку на страницу отеля из словаря
+    Gets a link to the hotel page from the dictionary
     :param hotel: dict
     :return: dict
     """
@@ -85,7 +86,7 @@ def get_site(hotel: dict) -> dict:
 
 def format_message_for_user(hotel: dict, total_day: int) -> str:
     """
-    Формирует строку с данными найденного отеля для отправки пользователю ()
+    Generates a string with the data of the found hotel to send to the user
     :param hotel: dict
     :param total_day: int
     :return: str
@@ -103,7 +104,7 @@ def format_message_for_user(hotel: dict, total_day: int) -> str:
 
 def format_message_for_user_history(hotel: dict) -> str:
     """
-    Формирует строку с данными отеля из db для отправки пользователю
+    Generates a string with hotel data from the db to send to the user
     :param hotel: dict
     :return: str
     """
@@ -117,7 +118,7 @@ def format_message_for_user_history(hotel: dict) -> str:
 
 def city_correct(name_city: str) -> bool:
     """
-    Проверка на правленый ввод названия города
+    Checking directional input of the city name
     :param name_city: str
     :return: bool
     """
@@ -126,7 +127,7 @@ def city_correct(name_city: str) -> bool:
 
 def price_correct(min_max_price: str) -> bool:
     """
-    Проверка на правленый ввод минимальной и максимальной цены
+    Checking for the correct entry of the minimum and maximum prices
     :param min_max_price: str
     :return: bool
     """
@@ -139,7 +140,7 @@ def price_correct(min_max_price: str) -> bool:
 
 def distance_correct(distance: str) -> bool:
     """
-    Провера дистанции на корректный ввод
+    Checking the distance for correct input
     :param distance: str
     :return: bool
     """
@@ -148,7 +149,7 @@ def distance_correct(distance: str) -> bool:
 
 def check_distance(user_id: str, hotel: dict) -> bool:
     """
-    Проверка дистанции отеля от центра
+    Checking the distance of the hotel from the center
     :param user_id: str
     :param hotel: dict
     :return: bool

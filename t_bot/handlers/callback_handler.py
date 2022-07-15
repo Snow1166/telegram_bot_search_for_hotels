@@ -13,7 +13,7 @@ from telebot.types import CallbackQuery
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkin'))
 def set_checkin(call: CallbackQuery) -> None:
     """
-    Создает кнопки с календарем и запрашивает у пользователя дату заезда.
+    Creates calendar buttons and asks the user for the check-in date.
     :param call:
     """
     user = User.get_user(call.from_user.id)
@@ -41,9 +41,9 @@ def set_checkin(call: CallbackQuery) -> None:
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkout'))
 def set_checkout(call: CallbackQuery) -> None:
     """
-    Получает и записывает данные заезда и отъезда пользователя.
-    Если выбрана команда bestdeal, запрашивает у пользователя диапазон стоимости отелей.
-    Иначе запрашивает у пользователя, сколько показать отелей.
+    Receives and records the user's check-in and check-out data.
+    If the best deal command is selected, it asks the user for a range of hotel prices.
+    Otherwise, it asks the user how many hotels to show.
     :param call:
     """
     user = User.get_user(call.from_user.id)
@@ -80,9 +80,9 @@ def set_checkout(call: CallbackQuery) -> None:
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call: CallbackQuery) -> None:
     """
-    Получает все callback вызовы, определяет тип полученный данных по началу строки.
-    Записывает данные. Запрашивает у пользователя дополнительные данные.
-     В случае получения всех данных, вызывает функцию для отправки поиска и отправки результатом пользователю.
+    Receives all callback calls, determines the type of received data at the beginning of the line.
+    Records data. Requests additional data from the user.
+    If all the data is received, it calls the function to send the search and send the result to the user.
     :param call:
     """
     user = User.get_user(call.from_user.id)

@@ -6,12 +6,12 @@ from t_bot.utilities import func
 
 
 @logger.catch()
-def api_request_hotels(querystring: dict, user_id: int) -> dict:
+def api_request_hotels(querystring: dict, user_id: str) -> dict:
     """
-    Получает строку запроса и запрашивает у api json отелей
-    :param querystring: строка запроса для api
-    :param user_id: id ползователя для логирования
-    :return: json отелей
+    Gets the request string and requests from the hotels json api
+    :param querystring: api request string
+    :param user_id: user id for logging
+    :return: json hotels
     """
     try:
         logger.info(f'User "{user_id}" request a list of hotels with parameters {querystring}')
@@ -28,13 +28,13 @@ def api_request_hotels(querystring: dict, user_id: int) -> dict:
 
 
 @logger.catch()
-def api_get_hotels_list(querystring: dict, user_id: int) -> dict:
+def api_get_hotels_list(querystring: dict, user_id: str) -> dict:
     """
-    Получает строку запроса и id пользователя, запрашивает список отелей,
-    парсит и возвращает словарь со списком отелей
-    :param querystring: строка запроса
-    :param user_id: id пользователя
-    :return: словарь отелей
+    Gets the query string and user id, requests a list of hotels,
+    parses and returns a dictionary with a list of hotels
+    :param querystring: query string
+    :param user_id: user id
+    :return: dictionary of hotels
     """
     json_hotel_list = api_request_hotels(querystring, user_id)
     if json_hotel_list:

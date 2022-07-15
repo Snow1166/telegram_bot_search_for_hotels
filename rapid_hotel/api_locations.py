@@ -9,10 +9,10 @@ from loguru import logger
 @logger.catch()
 def request_location(message: str, user_id: str) -> dict:
     """
-    Получает название города и запрашивает список локаций у api.
-    :param message: название города
-    :param user_id: id пользователя для логирования
-    :return: возвращает словарь локаций.
+    Gets the name of the city and requests a list of locations from the api.
+    :param message: name of the city
+    :param user_id: user id for logging
+    :return: returns a dictionary of locations.
     """
     try:
         querystring = {"query": {message}, "locale": "ru_RU", "currency": "rub"}
@@ -33,11 +33,11 @@ def request_location(message: str, user_id: str) -> dict:
 @logger.catch()
 def get_locations_list(message: str, user_id: str) -> dict:
     """
-    Получает название города, вызывает функцию запроса api локаций,
-    получает словарь локаций, парсит словарь, затем его возвращает.
-    :param message: название города.
-    :param user_id: id пользователя.
-    :return: словарь локаций
+    Gets the name of the city, calls the location api request function,
+    gets a dictionary of locations, parses the dictionary, then returns it.
+    :param message: the name of the city.
+    :param user_id: user id.
+    :return: dictionary of locations
     """
     json_loc = request_location(message, user_id)
     if json_loc:
