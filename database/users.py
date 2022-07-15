@@ -1,7 +1,11 @@
 class User:
+    """
+    Создание класса пользователя для сбора данных опроса
+    и возвращения строки запроса дла api отелей
+    """
     all_users = dict()
 
-    def __init__(self, user_id):
+    def __init__(self, user_id: int) -> None:
         self.command = None
         self.destination_id = None
         self.city_search = None
@@ -21,6 +25,12 @@ class User:
 
     @staticmethod
     def get_user(user_id):
+        """
+        Принимает id пользователя и проверяет наличия значения в словаре
+        В случае отсутствия id пользователя, добавляет его в словарь.
+        :param user_id:
+        :return: возвращает id пользователя из словаря
+        """
         if User.all_users.get(user_id) is None:
             new_user = User(user_id)
             return new_user
@@ -28,9 +38,12 @@ class User:
 
     @classmethod
     def add_user(cls, user_id, user):
+        """ Создает пользователя в словаре"""
         cls.all_users[user_id] = user
 
-    def get_querystring(self):
+    def get_querystring(self) -> dict:
+        """Создание и возвращение строки запроса и
+        корректирование его в зависимости от введенной команды пользователя"""
         querystring = {"destinationId": self.destination_id, "pageNumber": "1", "pageSize": "25",
                        "checkIn": self.checkin, "checkOut": self.checkout, "adults1": "1",
                        "sortOrder": "PRICE", "locale": self.locale, "currency": self.currency}

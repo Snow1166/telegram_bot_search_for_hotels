@@ -5,7 +5,13 @@ from loguru import logger
 
 
 @logger.catch()
-def request_photo(id_hotel, user_id):
+def request_photo(id_hotel: int, user_id: int) -> dict:
+    """
+    Получает id отедя и запрашивает у api словарь с url фотографий
+    :param id_hotel: id отелей
+    :param user_id: id пользователя
+    :return: словарь с url фотографий
+    """
     if not config.DEBUG:
         try:
             answer = requests.get(config.url_get_hotel_photos, headers=config.hotels_headers,
@@ -26,7 +32,16 @@ def request_photo(id_hotel, user_id):
 
 
 @logger.catch()
-def get_url_photo(id_hotel, total_photo, user_id):
+def get_url_photo(id_hotel: int, total_photo: int, user_id: int) -> list:
+    """
+    Получает id отеля и количество фотографий,
+    вызывает функцию api, получает словарь с url фотографий,
+    парсит и возвращает список с введенным количеством фотографий.
+    :param id_hotel: id отеля
+    :param total_photo: количество фотографий
+    :param user_id: id пользователя
+    :return: список фотографий
+    """
     photo_list = request_photo(id_hotel, user_id)
     photo_list_url = list()
     if photo_list:
@@ -35,11 +50,17 @@ def get_url_photo(id_hotel, total_photo, user_id):
             photo_list_url.append(photo_list['hotelImages'][i]['baseUrl'].replace("{size}", "b"))
         return photo_list_url
     logger.info(f'User "{user_id}" server error, the list of photos was not received "{id_hotel}"')
-    return False
 
 
 @logger.catch()
-def add_photo(hotel_list, total_photo, user_id):
+def add_photo(hotel_list: dict, total_photo: int, user_id: int) -> dict:
+    """
+    Добавляет в словарь отелей фотографии
+    :param hotel_list: словарь отелей
+    :param total_photo: количество фотографий
+    :param user_id: id пользователя
+    :return: словарь отелей с фотографиями
+    """
     logger.info(f'User "{user_id}" adding a list of photos to a list of hotels')
     for id_hotel in hotel_list:
         photo = get_url_photo(id_hotel, total_photo, user_id)

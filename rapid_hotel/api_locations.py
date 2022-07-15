@@ -7,8 +7,13 @@ from loguru import logger
 
 
 @logger.catch()
-def request_location(message, user_id):
-    """Запрос локаций по названию городу"""
+def request_location(message: str, user_id: str) -> dict:
+    """
+    Получает название города и запрашивает список локаций у api.
+    :param message: название города
+    :param user_id: id пользователя для логирования
+    :return: возвращает словарь локаций.
+    """
     try:
         querystring = {"query": {message}, "locale": "ru_RU", "currency": "rub"}
         logger.info(f'User "{user_id}" requests locations with parameters "{querystring}"')
@@ -26,7 +31,14 @@ def request_location(message, user_id):
 
 
 @logger.catch()
-def get_locations_list(message, user_id):
+def get_locations_list(message: str, user_id: str) -> dict:
+    """
+    Получает название города, вызывает функцию запроса api локаций,
+    получает словарь локаций, парсит словарь, затем его возвращает.
+    :param message: название города.
+    :param user_id: id пользователя.
+    :return: словарь локаций
+    """
     json_loc = request_location(message, user_id)
     if json_loc:
         logger.info(f'User "{user_id}" parsing list location hotels')
