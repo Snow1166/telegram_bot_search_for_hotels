@@ -6,13 +6,10 @@ from loguru import logger
 @logger.catch()
 @bot.message_handler(commands=['start'])
 def command_start(message):
-    bot.set_state(message.from_user.id,
-                  StateUser.command,
-                  message.chat.id)
-    logger.info(f'User "{message.chat.id}" create a user_dict')
+    sticker_hello = 'CAACAgIAAxkBAAEWA7hi0UsBZWQDmcBFYA25gZnWohcWbQAChxUAAj0PUEnem2b91sejvykE'
     logger.info(f'User "{message.chat.id}" used command "/start"')
-    welcome = open('images/logo.jpg', 'rb')
-    bot.send_photo(message.chat.id, welcome, caption="""
+    bot.send_sticker(message.chat.id, sticker_hello)
+    bot.send_message(message.chat.id, """
 Привет, я бот по поиску отелей
 Выбери необходимую команду.  """)
     bot.send_message(message.chat.id, command_list)
@@ -21,10 +18,8 @@ def command_start(message):
 @logger.catch()
 @bot.message_handler(commands=['help'])
 def command_start(message):
-    bot.set_state(message.from_user.id,
-                  StateUser.command,
-                  message.chat.id)
+    sticker_help = 'CAACAgIAAxkBAAEWA9li0UwRePc9fF3eBRMIXAb7qIH5TAACwxMAAm3oEEqGY8B94dy6NCkE'
     logger.info(f'User "{message.chat.id}" used command "/help"')
-    welcome = open('images/logo.jpg', 'rb')
-    bot.send_photo(message.chat.id, welcome, caption=command_list, reply_markup=None)
+    bot.send_sticker(message.chat.id, sticker_help)
+    bot.send_message(message.chat.id, command_list)
 

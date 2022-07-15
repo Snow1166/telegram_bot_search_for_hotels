@@ -143,3 +143,5 @@ def callback_inline(call):
                               message_id=call.message.message_id,
                               text='Спасибо, что воспользовались ботом по поиску отелей.',
                               reply_markup=None)
+        sticker_end = 'CAACAgIAAxkBAAEWBKhi0VFcFp1tiTKLJ_q4PYEQhMLVrQACChUAAl_zwUl2NIzsRPf4fykE'
+        bot.send_sticker(call.message.chat.id, sticker_end)

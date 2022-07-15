@@ -22,8 +22,8 @@ def send_history(message):
                 bot.send_message(message.chat.id,
                                  func.format_message_for_user_history(hotel),
                                  disable_web_page_preview=True)
-            bot.send_message(message.chat.id, 'Начать новый поиск?',
-                             reply_markup=answer_button)
+        bot.send_message(message.chat.id, 'Начать новый поиск?',
+                         reply_markup=answer_button)
     else:
         bot.send_message(message.chat.id, 'Ваша история запросов пуста', reply_markup=answer_button)
 

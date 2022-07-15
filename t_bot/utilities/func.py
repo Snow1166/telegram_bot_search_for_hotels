@@ -45,21 +45,21 @@ def get_site(hotel):
 
 def format_message_for_user(hotel, total_day):
     message = f"""
-<a href="{hotel['site']}/">{hotel['name']}</a> {hotel['starRating']}        
-<b>Адрес:</b> {hotel['address']}
-<b>Рейтинг отеля:</b> {hotel['unformattedRating']}
-<b>Расположение от центра:</b> {hotel['landmarks']}
-<b>Цена за ночь:</b> {hotel['price']}
-<b>Цена за {total_day} (дня/дней):</b> {hotel['total_price']} 
+🏨 <a href="{hotel['site']}/">{hotel['name']}</a> {hotel['starRating']}        
+🗺 <b>Адрес:</b> {hotel['address']}
+📈 <b>Рейтинг отеля:</b> {hotel['unformattedRating']}
+🧭 <b>Расположение от центра:</b> {hotel['landmarks']}
+💲 <b>Цена за ночь:</b> {hotel['price']}
+💲 <b>Цена за {total_day} (дня/дней):</b> {hotel['total_price']} 
       """
     return message
 
 
 def format_message_for_user_history(hotel):
     message = f"""
-<a href="{hotel['site']}/">{hotel['name']}</a> {hotel['starRating']}        
-<b>Адрес:</b> {hotel['address']}
-<b>Цена за ночь:</b> {hotel['price']}
+🏨 <a href="{hotel['site']}/">{hotel['name']}</a> {hotel['starRating']}        
+🗺 <b>Адрес:</b> {hotel['address']}
+💲 <b>Цена за ночь:</b> {hotel['price']}
       """
     return message
 
