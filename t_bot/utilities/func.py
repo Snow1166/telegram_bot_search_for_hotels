@@ -40,21 +40,26 @@ def get_total_price(hotel, total_day):
 
 
 def get_site(hotel):
-    try:
-        return {"site": f'https://www.hotels.com/ho{hotel["id"]}/'}
-    except KeyError:
-        return {"price": "Страница не указана"}
+    return {"site": f'https://www.hotels.com/ho{hotel["id"]}/'}
 
 
 def format_message_for_user(hotel, total_day):
     message = f"""
-<b>Название отеля:</b> {hotel['name']} {hotel['starRating']}        
-<b>Адрес:</b> {hotel['address']}
-<b>Рейтинг отеля:</b> {hotel['unformattedRating']}
-<a href="{hotel['site']}/">Страница отеля</a> 
-<b>Расположение от центра:</b> {hotel['landmarks']}
-<b>Цена за ночь:</b> {hotel['price']}
-<b>Цена за {total_day} (дня/дней):</b> {hotel['total_price']} 
+🏨 <a href="{hotel['site']}/">{hotel['name']}</a> {hotel['starRating']}        
+🗺 <b>Адрес:</b> {hotel['address']}
+📈 <b>Рейтинг отеля:</b> {hotel['unformattedRating']}
+🧭 <b>Расположение от центра:</b> {hotel['landmarks']}
+💲 <b>Цена за ночь:</b> {hotel['price']}
+💲 <b>Цена за {total_day} (дня/дней):</b> {hotel['total_price']} 
+      """
+    return message
+
+
+def format_message_for_user_history(hotel):
+    message = f"""
+🏨 <a href="{hotel['site']}/">{hotel['name']}</a> {hotel['starRating']}        
+🗺 <b>Адрес:</b> {hotel['address']}
+💲 <b>Цена за ночь:</b> {hotel['price']}
       """
     return message
 
@@ -72,7 +77,7 @@ def price_correct(min_max_price):
 
 
 def distance_correct(distance):
-    return distance.isdigit() and int(distance) > 0
+    return distance.isdigit() and int(distance) >= 0
 
 
 def check_distance(user_id, hotel):

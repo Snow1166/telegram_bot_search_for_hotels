@@ -1,11 +1,12 @@
-from config import bot, command_list
+from config import bot, command_list, sticker
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice, photo_bool_choice, button_cancel_ready
-from t_bot.utilities.creating_list_hotels import send_hotels_list_for_user
+from t_bot.command.hotel_search import send_hotels_list_for_user
 from telegram_bot_calendar import DetailedTelegramCalendar
 from datetime import date, timedelta
 from loguru import logger
 from database.users import User
+
 
 @logger.catch()
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkin'))
@@ -103,6 +104,7 @@ def callback_inline(call):
                                   message_id=call.message.message_id,
                                   text="Подождите, ищем подходящие предложения...",
                                   reply_markup=None)
+            user.last_message_bot = bot.send_sticker(call.message.chat.id, sticker)
             send_hotels_list_for_user(call.from_user.id)
         elif photos_bool == 'yes':
             button = photo_choice(call.from_user.id)
@@ -121,6 +123,7 @@ def callback_inline(call):
                               message_id=call.message.message_id,
                               text="Подождите, ищем походящие предложения...",
                               reply_markup=None)
+        user.last_message_bot = bot.send_sticker(call.message.chat.id, sticker)
         send_hotels_list_for_user(call.from_user.id)
 
     elif call.data.startswith('cancel'):
@@ -140,3 +143,5 @@ def callback_inline(call):
                               message_id=call.message.message_id,
                               text='Спасибо, что воспользовались ботом по поиску отелей.',
                               reply_markup=None)
+        sticker_end = 'CAACAgIAAxkBAAEWBKhi0VFcFp1tiTKLJ_q4PYEQhMLVrQACChUAAl_zwUl2NIzsRPf4fykE'
+        bot.send_sticker(call.message.chat.id, sticker_end)
