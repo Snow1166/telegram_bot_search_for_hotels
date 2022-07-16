@@ -1,11 +1,17 @@
+from telebot.types import InlineKeyboardMarkup
 from rapid_hotel.api_locations import get_locations_list
 from telebot import types
 from loguru import logger
 
 
 @logger.catch()
-def city_markup(message, user_id):
-    """Создаем и возвращаем кнопки для точного определения города"""
+def city_markup(message: str, user_id: str) -> InlineKeyboardMarkup | dict:
+    """
+    Создаем и возвращаем кнопки для точного определения города.
+    :param message: название города.
+    :param user_id: id пользователя.
+    :return: возвращает клавиатуру или словарь
+    """
     cities = get_locations_list(message, user_id)
     destinations = types.InlineKeyboardMarkup()
     if cities:
@@ -19,7 +25,12 @@ def city_markup(message, user_id):
 
 
 @logger.catch()
-def photo_bool_choice(user_id):
+def photo_bool_choice(user_id) -> InlineKeyboardMarkup:
+    """
+    Создает InlineKeyboardMarkup для выбора необходимости фотографий
+    :param user_id: id пользователя.
+    :return: InlineKeyboardMarkup
+    """
     logger.info(f'User "{user_id}" creating buttons for asking about the need for photos')
     button_photo_choice = types.InlineKeyboardMarkup(row_width=2)
     button_1 = types.InlineKeyboardButton(text='Да', callback_data='bool_photo yes')
@@ -30,7 +41,12 @@ def photo_bool_choice(user_id):
 
 
 @logger.catch()
-def photo_choice(user_id):
+def photo_choice(user_id ) -> InlineKeyboardMarkup:
+    """
+    Создает InlineKeyboardMarkup для выбора количества фотографий
+    :param user_id: id пользователя.
+    :return: InlineKeyboardMarkup
+    """
     logger.info(f'User "{user_id}" creating buttons to select the number of photos')
     button_photo_choice = types.InlineKeyboardMarkup(row_width=5)
     button = [(types.InlineKeyboardButton(text=i,
@@ -41,7 +57,12 @@ def photo_choice(user_id):
 
 
 @logger.catch()
-def hotel_choice(user_id):
+def hotel_choice(user_id) -> InlineKeyboardMarkup:
+    """
+    Создает InlineKeyboardMarkup для выбора количества отелей
+    :param user_id: id пользователя.
+    :return: InlineKeyboardMarkup
+    """
     logger.info(f'User "{user_id}" creating buttons to select the number of hotels')
     button_hotel_choice = types.InlineKeyboardMarkup(row_width=2)
     button = [(types.InlineKeyboardButton(text=i,
@@ -51,18 +72,30 @@ def hotel_choice(user_id):
     return button_hotel_choice
 
 
-def button_cancel():
-    button = types.InlineKeyboardButton(text='Возврат в главное меню', callback_data='cancel')
+def button_cancel() -> types.InlineKeyboardButton:
+    """
+    Создаёт кнопку возврата к выбору поиска команд.
+    :return: InlineKeyboardMarkup
+    """
+    button = types.InlineKeyboardButton(text='Вернуться к выбору команд', callback_data='cancel')
     return button
 
 
-def button_cancel_ready():
+def button_cancel_ready() -> InlineKeyboardMarkup:
+    """
+    Создаёт клавиатуру возврата к выбору поиска команд.
+    :return: InlineKeyboardMarkup
+    """
     button = types.InlineKeyboardMarkup()
     button.add(button_cancel())
     return button
 
 
-def after_search():
+def after_search() -> InlineKeyboardMarkup:
+    """
+    Создаёт клавиатуру c новым поиском и завершением.
+    :return: InlineKeyboardMarkup
+    """
     button = types.InlineKeyboardMarkup(row_width=1)
     button_1 = types.InlineKeyboardButton(text='Новый поиск', callback_data='cancel')
     button_2 = types.InlineKeyboardButton(text='Завершить', callback_data='end')

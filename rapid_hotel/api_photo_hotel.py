@@ -5,12 +5,12 @@ from loguru import logger
 
 
 @logger.catch()
-def request_photo(id_hotel: int, user_id: int) -> dict:
+def request_photo(id_hotel: int, user_id: str) -> dict:
     """
-    Получает id отедя и запрашивает у api словарь с url фотографий
-    :param id_hotel: id отелей
-    :param user_id: id пользователя
-    :return: словарь с url фотографий
+    Gets the id from the user and requests a dictionary from the api with the url of the photos
+    :param id_hotel: id of hotels
+    :param user_id: user id
+    :return: dictionary with photo urls
     """
     if not config.DEBUG:
         try:
@@ -32,15 +32,15 @@ def request_photo(id_hotel: int, user_id: int) -> dict:
 
 
 @logger.catch()
-def get_url_photo(id_hotel: int, total_photo: int, user_id: int) -> list:
+def get_url_photo(id_hotel: int, total_photo: int, user_id: str) -> list:
     """
-    Получает id отеля и количество фотографий,
-    вызывает функцию api, получает словарь с url фотографий,
-    парсит и возвращает список с введенным количеством фотографий.
-    :param id_hotel: id отеля
-    :param total_photo: количество фотографий
-    :param user_id: id пользователя
-    :return: список фотографий
+    Gets the hotel id and the number of photos,
+    calls the api function, gets a dictionary with the url of photos,
+    parses and returns a list with the entered number of photos.
+    :param id_hotel: hotel id
+    :param total_photo: number of photos
+    :param user_id: user id
+    :return: list of photos
     """
     photo_list = request_photo(id_hotel, user_id)
     photo_list_url = list()
@@ -53,13 +53,13 @@ def get_url_photo(id_hotel: int, total_photo: int, user_id: int) -> list:
 
 
 @logger.catch()
-def add_photo(hotel_list: dict, total_photo: int, user_id: int) -> dict:
+def add_photo(hotel_list: dict, total_photo: int, user_id: str) -> dict:
     """
-    Добавляет в словарь отелей фотографии
-    :param hotel_list: словарь отелей
-    :param total_photo: количество фотографий
-    :param user_id: id пользователя
-    :return: словарь отелей с фотографиями
+    Adds photos to the hotel dictionary
+    :param hotel_list: dictionary of hotels
+    :param total_photo: number of photos
+    :param user_id: user id
+    :return: dictionary of hotels with photos
     """
     logger.info(f'User "{user_id}" adding a list of photos to a list of hotels')
     for id_hotel in hotel_list:

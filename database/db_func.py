@@ -2,14 +2,14 @@ from database.db_models import db, UserRequest
 import json
 
 
-def add_request_db(id_user: int, command: str, name_city: str, hotel_list: dict) -> None:
+def add_request_db(id_user: str, command: str, name_city: str, hotel_list: json) -> None:
     """
-    Функция для добавления данный в базу данных.
+    Function for adding data to the database.
     Args:
-        :param id_user: принимает id пользователя
-        :param command: принимает команду поиска пользователя
-        :param name_city: принимает введённое название для поиска
-        :param hotel_list: принимает JSON со списком отелей показанных пользователю при поиске
+        :param id_user: accepts user id
+        :param command: accepts the user's search command
+        :param name_city: accepts the entered name for the search
+        :param hotel_list: accepts JSON with a list of hotels shown to the user during the search
     :return: None
     """
     with db:
@@ -20,11 +20,11 @@ def add_request_db(id_user: int, command: str, name_city: str, hotel_list: dict)
                            )
 
 
-def get_request_db(user: int) -> list:
+def get_request_db(user: str) -> list:
     """
-    Функция возвращает из базы данных историю поиска пользователя.
-    :param user: id пользователя
-    :return: возвращает список со словарями истории запросов
+    The function returns the user's search history from the database.
+    :param user: accepts user id
+    :return: returns a list with query history dictionaries
     """
     with db:
         history_list = list()

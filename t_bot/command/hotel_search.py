@@ -11,10 +11,19 @@ from loguru import logger
 from t_bot.keyboard_markup.inline_keyboard import after_search
 from database.users import User
 from database.db_func import add_request_db
+from telebot.types import Message
+
 
 @logger.catch()
 @bot.message_handler(commands=['lowprice', 'highprice', 'bestdeal'])
-def hotel_search(message):
+def hotel_search(message: Message) -> None:
+    """
+    Catches the search commands 'lowprice', 'highprice', 'best deal',
+    requests the desired city from the user,
+    changes the user's state to destination_id
+    :param message: user's message with the name of the city
+    :return:
+    """
     user = User.get_user(message.chat.id)
     bot.set_state(message.from_user.id,
                   StateUser.destination_id,
@@ -27,7 +36,16 @@ def hotel_search(message):
 
 
 @logger.catch()
-def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user_id):
+def get_final_hotel_list(querystring: dict, total_hotels: int, total_photo: int, total_day: int, user_id: str) -> dict:
+    """
+    Calls a function with a request from the dictionary api with hotels,
+generates a final list of hotels for the user and adds photos.
+    :param querystring: query string
+    :param total_hotels: number of hotels
+    :param total_photo: number of photos
+    :param total_day: number of days
+    :param user_id: user id
+    """
     hotel_list = api_get_hotels_list(querystring, user_id)
     ready_list_hotels = dict()
     logger.info(f'User "{user_id}" creating a final list of hotels')
@@ -53,7 +71,14 @@ def get_final_hotel_list(querystring, total_hotels, total_photo, total_day, user
 
 
 @logger.catch()
-def send_hotels_list_for_user(user_id):
+def send_hotels_list_for_user(user_id) -> None:
+    """
+    Generates a query string,
+    calls functions to generate a list of hotels
+    and sends them to the chat to the user.
+    :rtype: object
+    :param user_id: str
+    """
     user = User.get_user(user_id)
     querystring = user.get_querystring()
     total_photo = user.get_total_photo()

@@ -6,11 +6,16 @@ from telegram_bot_calendar import DetailedTelegramCalendar
 from datetime import date, timedelta
 from loguru import logger
 from database.users import User
+from telebot.types import CallbackQuery
 
 
 @logger.catch()
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkin'))
-def set_checkin(call):
+def set_checkin(call: CallbackQuery) -> None:
+    """
+    Creates calendar buttons and asks the user for the check-in date.
+    :param call:
+    """
     user = User.get_user(call.from_user.id)
     logger.info(f'User "{call.message.chat.id}" selects the arrival date {call.data}')
     result, key, step = DetailedTelegramCalendar(calendar_id='checkin',
@@ -34,7 +39,13 @@ def set_checkin(call):
 
 @logger.catch()
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id='checkout'))
-def set_checkout(call):
+def set_checkout(call: CallbackQuery) -> None:
+    """
+    Receives and records the user's check-in and check-out data.
+    If the best deal command is selected, it asks the user for a range of hotel prices.
+    Otherwise, it asks the user how many hotels to show.
+    :param call:
+    """
     user = User.get_user(call.from_user.id)
     logger.info(f'User "{call.message.chat.id}" selects the departure date {call.data}')
     result, key, step = DetailedTelegramCalendar(calendar_id='checkout',
@@ -67,7 +78,13 @@ def set_checkout(call):
 
 @logger.catch()
 @bot.callback_query_handler(func=lambda call: True)
-def callback_inline(call):
+def callback_inline(call: CallbackQuery) -> None:
+    """
+    Receives all callback calls, determines the type of received data at the beginning of the line.
+    Records data. Requests additional data from the user.
+    If all the data is received, it calls the function to send the search and send the result to the user.
+    :param call:
+    """
     user = User.get_user(call.from_user.id)
     if call.data.startswith('id_loc'):
         destination_id = call.data.split()[1]

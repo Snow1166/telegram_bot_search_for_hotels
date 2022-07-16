@@ -3,7 +3,7 @@ from telebot.handler_backends import State, StatesGroup
 
 class StateUser(StatesGroup):
     """
-    Создание машины состояния
+    Creating a State Machine
     """
     command = State()
     destination_id = State()

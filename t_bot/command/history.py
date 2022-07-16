@@ -1,5 +1,6 @@
 from config import bot
 from loguru import logger
+from telebot.types import Message
 from database.db_func import get_request_db
 from t_bot.utilities import func
 from t_bot.keyboard_markup.inline_keyboard import after_search
@@ -7,7 +8,12 @@ from t_bot.keyboard_markup.inline_keyboard import after_search
 
 @logger.catch()
 @bot.message_handler(commands=['history'])
-def send_history(message):
+def send_history(message: Message) -> None:
+    """
+    Catches the history command
+    and sends the user a history of his requests.
+    :param message: user's message
+    """
     history = get_request_db(message.chat.id)
     answer_button = after_search()
     if history:
@@ -30,7 +36,12 @@ def send_history(message):
 
 @logger.catch()
 @bot.message_handler()
-def unknown_command(message):
+def unknown_command(message: Message) -> None:
+    """
+    Catches unrecognized messages
+    and sends the relevant information to the user.
+    :param message: user's message
+    """
     sticker = 'CAACAgIAAxkBAAEWAqpi0TgZuLaB1AXOqHLVwkKlGB106QACYhgAAjx6UEnKFDnPOcbwvykE'
     bot.send_sticker(message.chat.id, sticker)
     bot.send_message(message.chat.id, """
