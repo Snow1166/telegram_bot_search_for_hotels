@@ -164,3 +164,4 @@ def check_distance(user_id: str, hotel: dict) -> bool:
     dist = hotel.get('landmarks', [{}])[0].get('distance')
     if float(user.distance) >= float(dist.replace(',', '.').split()[0]):
         return True
+    return False

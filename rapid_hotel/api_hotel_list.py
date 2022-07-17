@@ -31,10 +31,11 @@ def api_request_hotels(querystring: dict, user_id: str) -> dict | None:
             requests.exceptions.ConnectionError,
             ConnectionError) as ex:
         logger.error(f'User "{user_id}" request_hotels: {ex}')
+    return None
 
 
 @logger.catch()
-def api_get_hotels_list(querystring: dict, user_id: str) -> dict:
+def api_get_hotels_list(querystring: dict, user_id: str) -> dict | None:
     """
     Gets the query string and user id, requests a list of hotels,
     parses and returns a dictionary with a list of hotels
@@ -51,3 +52,4 @@ def api_get_hotels_list(querystring: dict, user_id: str) -> dict:
                 id_hotel = hotel['id']
                 hotel_list[id_hotel] = hotel
         return hotel_list
+    return None
