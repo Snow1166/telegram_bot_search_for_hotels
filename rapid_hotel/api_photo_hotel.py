@@ -1,5 +1,6 @@
 """Photo Request Module"""
 import json
+from typing import List, Any
 
 import requests
 from loguru import logger
@@ -8,14 +9,18 @@ import config
 
 
 @logger.catch()
-def request_photo(id_hotel: int, user_id: str) -> dict:
+def request_photo(id_hotel: int, user_id: str) -> dict | None:
     """
     Gets the id from the user and requests a dictionary from the api with the url of the photos
     :param id_hotel: id of hotels
     :param user_id: user id
     :return: dictionary with photo urls
     """
-    if not config.DEBUG:
+    if config.DEBUG:
+        with open('photo_list.json', 'r', encoding='utf-8') as file:
+            photo_list = json.load(file)
+        return photo_list
+    else:
         try:
             answer = requests.get(config.URL_GET_HOTEL_PHOTOS, headers=config.hotels_headers,
                                   params={"id": f"{id_hotel}"})
@@ -28,14 +33,11 @@ def request_photo(id_hotel: int, user_id: str) -> dict:
                 requests.exceptions.ConnectionError,
                 ConnectionError) as ex:
             logger.error(f'User "{user_id}" request_photos: {ex}')
-    else:
-        with open('photo_list.json', 'r', encoding='utf-8') as file:
-            photo_list = json.load(file)
-        return photo_list
+        return None
 
 
 @logger.catch()
-def get_url_photo(id_hotel: int, total_photo: int, user_id: str) -> list:
+def get_url_photo(id_hotel: int, total_photo: int, user_id: str) -> list[Any] | None:
     """
     Gets the hotel id and the number of photos,
     calls the api function, gets a dictionary with the url of photos,
@@ -53,6 +55,7 @@ def get_url_photo(id_hotel: int, total_photo: int, user_id: str) -> list:
             photo_list_url.append(photo_list['hotelImages'][i]['baseUrl'].replace("{size}", "b"))
         return photo_list_url
     logger.info(f'User "{user_id}" server error, the list of photos was not received "{id_hotel}"')
+    return None
 
 
 @logger.catch()

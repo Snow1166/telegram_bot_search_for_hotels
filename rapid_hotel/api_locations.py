@@ -1,6 +1,8 @@
 """Location Request Module"""
 import re
 import json
+from typing import Any
+
 import requests
 
 from loguru import logger
@@ -9,7 +11,7 @@ import config
 
 
 @logger.catch()
-def request_location(message: str, user_id: str) -> dict:
+def request_location(message: str, user_id: str) -> Any | None:
     """
     Gets the name of the city and requests a list of locations from the api.
     :param message: name of the city
@@ -32,10 +34,11 @@ def request_location(message: str, user_id: str) -> dict:
             requests.exceptions.ConnectionError,
             ConnectionError) as ex:
         logger.error(f'User "{user_id}" request_location: {ex}')
+    return None
 
 
 @logger.catch()
-def get_locations_list(message: str, user_id: str) -> dict:
+def get_locations_list(message: str, user_id: str) -> dict | None:
     """
     Gets the name of the city, calls the location api request function,
     gets a dictionary of locations, parses the dictionary, then returns it.
@@ -51,3 +54,4 @@ def get_locations_list(message: str, user_id: str) -> dict:
             location_name = re.sub(config.PATTERN_DELETE_SPANS, '', item['caption'])
             locations[location_name] = item['destinationId']
         return locations
+    return None
