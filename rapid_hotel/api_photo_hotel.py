@@ -1,6 +1,5 @@
 """Photo Request Module"""
 import json
-from typing import List, Any
 
 import requests
 from loguru import logger
@@ -36,7 +35,7 @@ def request_photo(id_hotel: int, user_id: str) -> dict | None:
 
 
 @logger.catch()
-def get_url_photo(id_hotel: int, total_photo: int, user_id: str) -> list[Any] | None:
+def get_url_photo(id_hotel: int, total_photo: int, user_id: str) -> list | None:
     """
     Gets the hotel id and the number of photos,
     calls the api function, gets a dictionary with the url of photos,
