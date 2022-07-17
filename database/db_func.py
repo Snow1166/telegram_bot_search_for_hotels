@@ -1,7 +1,4 @@
-"""
-fghj
-fghjfgh
-"""
+"""Functions for working with the database"""
 import json
 
 from database.db_models import db, UserRequest

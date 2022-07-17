@@ -1,12 +1,12 @@
 """Hotel search team"""
 import json
+
 from loguru import logger
 from telebot import types
 from telebot.types import Message
 
-from loader import bot
+from config import bot
 from database.state import StateUser
-
 from t_bot.utilities import func
 from t_bot.keyboard_markup.inline_keyboard import button_cancel_ready
 from t_bot.keyboard_markup.inline_keyboard import after_search

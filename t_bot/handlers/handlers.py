@@ -36,8 +36,8 @@ def get_search_city(message: Message) -> None:
             bot.set_state(message.from_user.id,
                           StateUser.checkin,
                           message.chat.id)
-            logger.info(f'''User "{message.chat.id}"
-                            entered the city of "{message.text} "for the search''')
+            logger.info(f'''
+                User "{message.chat.id}" entered the city of "{message.text} "for the search''')
             bot.send_message(message.from_user.id,
                              'Пожалуйста, уточните местонахождение:',
                              reply_markup=button)
