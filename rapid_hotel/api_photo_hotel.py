@@ -20,20 +20,19 @@ def request_photo(id_hotel: int, user_id: str) -> dict | None:
         with open('photo_list.json', 'r', encoding='utf-8') as file:
             photo_list = json.load(file)
         return photo_list
-    else:
-        try:
-            answer = requests.get(config.URL_GET_HOTEL_PHOTOS, headers=config.hotels_headers,
-                                  params={"id": f"{id_hotel}"})
-            logger.info(f'User "{user_id}" requests list photos for a hotel with id "{id_hotel}"')
-            if answer.status_code == 200:
-                photo_list = json.loads(answer.text)
-                return photo_list
-            raise ConnectionError(f'Connection Error {answer.status_code}')
-        except (requests.exceptions.ReadTimeout,
-                requests.exceptions.ConnectionError,
-                ConnectionError) as ex:
-            logger.error(f'User "{user_id}" request_photos: {ex}')
-        return None
+    try:
+        answer = requests.get(config.URL_GET_HOTEL_PHOTOS, headers=config.hotels_headers,
+                              params={"id": f"{id_hotel}"})
+        logger.info(f'User "{user_id}" requests list photos for a hotel with id "{id_hotel}"')
+        if answer.status_code == 200:
+            photo_list = json.loads(answer.text)
+            return photo_list
+        raise ConnectionError(f'Connection Error {answer.status_code}')
+    except (requests.exceptions.ReadTimeout,
+            requests.exceptions.ConnectionError,
+            ConnectionError) as ex:
+        logger.error(f'User "{user_id}" request_photos: {ex}')
+    return None
 
 
 @logger.catch()
