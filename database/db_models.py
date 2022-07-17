@@ -1,5 +1,8 @@
-from peewee import *
+"""Creating a database"""
 import datetime
+
+from peewee import Model, CharField, DateTimeField, SqliteDatabase
+
 
 db = SqliteDatabase('users.db')
 
@@ -8,8 +11,10 @@ class BaseModel(Model):
     """
     Creating a basic model
     """
-
     class Meta:
+        """
+        Creating a class Meta
+        """
         database = db
         order_by = 'created_date'
 

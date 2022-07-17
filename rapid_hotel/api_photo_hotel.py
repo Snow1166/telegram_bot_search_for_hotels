@@ -1,7 +1,10 @@
-import requests
+"""Photo Request Module"""
 import json
-import config
+
+import requests
 from loguru import logger
+
+import config
 
 
 @logger.catch()
@@ -14,10 +17,10 @@ def request_photo(id_hotel: int, user_id: str) -> dict:
     """
     if not config.DEBUG:
         try:
-            answer = requests.get(config.url_get_hotel_photos, headers=config.hotels_headers,
+            answer = requests.get(config.URL_GET_HOTEL_PHOTOS, headers=config.hotels_headers,
                                   params={"id": f"{id_hotel}"})
             logger.info(f'User "{user_id}" requests list photos for a hotel with id "{id_hotel}"')
-            if answer.status_code == requests.codes.ok:
+            if answer.status_code == 200:
                 photo_list = json.loads(answer.text)
                 return photo_list
             raise ConnectionError(f'Connection Error {answer.status_code}')
@@ -43,7 +46,7 @@ def get_url_photo(id_hotel: int, total_photo: int, user_id: str) -> list:
     :return: list of photos
     """
     photo_list = request_photo(id_hotel, user_id)
-    photo_list_url = list()
+    photo_list_url = []
     if photo_list:
         logger.info(f'User "{user_id}" creating a list of photo links for a hotel "{id_hotel}"')
         for i in range(total_photo):

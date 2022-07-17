@@ -1,17 +1,19 @@
+"""Hotel search team"""
 import json
+from loguru import logger
+from telebot import types
+from telebot.types import Message
 
-from t_bot.keyboard_markup.inline_keyboard import button_cancel_ready
+from loader import bot
 from database.state import StateUser
+
 from t_bot.utilities import func
+from t_bot.keyboard_markup.inline_keyboard import button_cancel_ready
+from t_bot.keyboard_markup.inline_keyboard import after_search
 from rapid_hotel.api_hotel_list import api_get_hotels_list
 from rapid_hotel.api_photo_hotel import add_photo
-from telebot import types
-from loader import bot
-from loguru import logger
-from t_bot.keyboard_markup.inline_keyboard import after_search
 from database.users import User
 from database.db_func import add_request_db
-from telebot.types import Message
 
 
 @logger.catch()
@@ -36,7 +38,11 @@ def hotel_search(message: Message) -> None:
 
 
 @logger.catch()
-def get_final_hotel_list(querystring: dict, total_hotels: int, total_photo: int, total_day: int, user_id: str) -> dict:
+def get_final_hotel_list(querystring: dict,
+                         total_hotels: int,
+                         total_photo: int,
+                         total_day: int,
+                         user_id: str) -> dict:
     """
     Calls a function with a request from the dictionary api with hotels,
 generates a final list of hotels for the user and adds photos.
@@ -47,7 +53,7 @@ generates a final list of hotels for the user and adds photos.
     :param user_id: user id
     """
     hotel_list = api_get_hotels_list(querystring, user_id)
-    ready_list_hotels = dict()
+    ready_list_hotels = {}
     logger.info(f'User "{user_id}" creating a final list of hotels')
     if hotel_list:
         for hotel in hotel_list.values():

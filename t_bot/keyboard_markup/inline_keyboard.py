@@ -1,11 +1,13 @@
-from telebot.types import InlineKeyboardMarkup
-from rapid_hotel.api_locations import get_locations_list
+"""The module for creating inline keyboards"""
 from telebot import types
 from loguru import logger
+from telebot.types import InlineKeyboardMarkup
+from rapid_hotel.api_locations import get_locations_list
+
 
 
 @logger.catch()
-def city_markup(message: str, user_id: str) -> InlineKeyboardMarkup | dict:
+def city_markup(message: str, user_id) -> InlineKeyboardMarkup | dict:
     """
     Создаем и возвращаем кнопки для точного определения города.
     :param message: название города.
@@ -15,7 +17,8 @@ def city_markup(message: str, user_id: str) -> InlineKeyboardMarkup | dict:
     cities = get_locations_list(message, user_id)
     destinations = types.InlineKeyboardMarkup()
     if cities:
-        logger.info(f'User "{user_id}" creating buttons to accurately select the city of "{message}"')
+        logger.info(f'''User "{user_id}" creating buttons
+                        to accurately select the city of "{message}"''')
         for city in cities:
             destinations.add(types.InlineKeyboardButton(text=city,
                                                         callback_data=f'id_loc {cities[city]}'))

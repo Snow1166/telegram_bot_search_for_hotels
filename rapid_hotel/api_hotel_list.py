@@ -1,12 +1,15 @@
-import requests
+"""The module for requesting a list of hotels"""
 import json
-import config
+
+import requests
 from loguru import logger
+
+import config
 from t_bot.utilities import func
 
 
 @logger.catch()
-def api_request_hotels(querystring: dict, user_id: str) -> dict:
+def api_request_hotels(querystring: dict, user_id: str) -> dict | None:
     """
     Gets the request string and requests from the hotels json api
     :param querystring: api request string
@@ -15,9 +18,12 @@ def api_request_hotels(querystring: dict, user_id: str) -> dict:
     """
     try:
         logger.info(f'User "{user_id}" request a list of hotels with parameters {querystring}')
-        answer = requests.get(config.url_properties_list, headers=config.hotels_headers, params=querystring, timeout=15)
+        answer = requests.get(config.URL_PROPERTIES_LIST,
+                              headers=config.hotels_headers,
+                              params=querystring,
+                              timeout=15)
         logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
-        if answer.status_code == requests.codes.ok:
+        if answer.status_code == 200:
             hotel_list = json.loads(answer.text)
             return hotel_list
         raise ConnectionError(f'Connection Error {answer.status_code}')
@@ -39,7 +45,7 @@ def api_get_hotels_list(querystring: dict, user_id: str) -> dict:
     json_hotel_list = api_request_hotels(querystring, user_id)
     if json_hotel_list:
         logger.info(f'User "{user_id}" parsing list of hotels')
-        hotel_list = dict()
+        hotel_list = {}
         for hotel in json_hotel_list['data']['body']['searchResults']['results']:
             if func.check_distance(user_id, hotel):
                 id_hotel = hotel['id']
