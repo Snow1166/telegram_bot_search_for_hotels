@@ -21,9 +21,9 @@ def api_request_hotels(querystring: dict, user_id: str) -> dict | None:
         answer = requests.get(config.URL_PROPERTIES_LIST,
                               headers=config.hotels_headers,
                               params=querystring,
-                              timeout=15)
+                              timeout=config.TIMEOUT_RAPID)
         logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
-        if answer.status_code == 200:
+        if func.check_status_code(answer.status_code):
             hotel_list = json.loads(answer.text)
             return hotel_list
         raise ConnectionError(f'Connection Error {answer.status_code}')

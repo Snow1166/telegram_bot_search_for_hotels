@@ -165,3 +165,14 @@ def check_distance(user_id: str, hotel: dict) -> bool:
     if float(user.distance) >= float(dist.replace(',', '.').split()[0]):
         return True
     return False
+
+
+def check_status_code(status_code: str) -> bool:
+    """
+    Checks the response status
+    :param status_code: str
+    :return: bool
+    """
+    if status_code == 200:
+        return True
+    return False

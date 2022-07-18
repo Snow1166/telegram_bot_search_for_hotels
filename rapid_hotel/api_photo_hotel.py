@@ -5,6 +5,7 @@ import requests
 from loguru import logger
 
 import config
+from t_bot.utilities import func
 
 
 @logger.catch()
@@ -20,10 +21,12 @@ def request_photo(id_hotel: int, user_id: str) -> dict | None:
             photo_list = json.load(file)
         return photo_list
     try:
-        answer = requests.get(config.URL_GET_HOTEL_PHOTOS, headers=config.hotels_headers,
-                              params={"id": f"{id_hotel}"})
+        answer = requests.get(config.URL_GET_HOTEL_PHOTOS,
+                              headers=config.hotels_headers,
+                              params={"id": f"{id_hotel}"},
+                              timeout=config.TIMEOUT_RAPID)
         logger.info(f'User "{user_id}" requests list photos for a hotel with id "{id_hotel}"')
-        if answer.status_code == 200:
+        if func.check_status_code(answer.status_code):
             photo_list = json.loads(answer.text)
             return photo_list
         raise ConnectionError(f'Connection Error {answer.status_code}')

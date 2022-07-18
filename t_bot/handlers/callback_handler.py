@@ -6,11 +6,11 @@ from telegram_bot_calendar import DetailedTelegramCalendar
 from telebot.types import CallbackQuery
 
 from config import bot, COMMAND_LIST, STICKER_WAIT
+from database.users import User
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice
 from t_bot.keyboard_markup.inline_keyboard import photo_bool_choice, button_cancel_ready
 from t_bot.command.hotel_search import send_hotels_list_for_user
-from database.users import User
 
 
 @logger.catch()

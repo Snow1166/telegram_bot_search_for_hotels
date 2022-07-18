@@ -3,10 +3,10 @@ from loguru import logger
 from telebot.types import Message
 
 from config import bot, STICKER_WAIT
+from database.users import User
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import city_markup, hotel_choice, button_cancel_ready
 from t_bot.utilities import func
-from database.users import User
 
 
 @logger.catch()

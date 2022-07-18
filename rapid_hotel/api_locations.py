@@ -1,17 +1,16 @@
 """Location Request Module"""
 import re
 import json
-from typing import Any
 
 import requests
-
 from loguru import logger
 
 import config
+from t_bot.utilities import func
 
 
 @logger.catch()
-def request_location(message: str, user_id: str) -> Any | None:
+def request_location(message: str, user_id: str) -> dict | None:
     """
     Gets the name of the city and requests a list of locations from the api.
     :param message: name of the city
@@ -24,9 +23,9 @@ def request_location(message: str, user_id: str) -> Any | None:
         answer = requests.get(config.URL_SEARCH_LOCATIONS,
                               headers=config.hotels_headers,
                               params=querystring,
-                              timeout=15)
+                              timeout=config.TIMEOUT_RAPID)
         logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
-        if answer.status_code == 200:
+        if func.check_status_code(answer.status_code):
             locations = json.loads(answer.text)
             return locations
         raise ConnectionError(f'Connection Error {answer.status_code}')

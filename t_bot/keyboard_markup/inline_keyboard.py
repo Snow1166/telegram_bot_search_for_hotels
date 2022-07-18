@@ -1,7 +1,8 @@
 """The module for creating inline keyboards"""
-from telebot import types
 from loguru import logger
+from telebot import types
 from telebot.types import InlineKeyboardMarkup
+
 from rapid_hotel.api_locations import get_locations_list
 
 

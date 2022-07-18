@@ -19,7 +19,7 @@ DEBUG_SAVE_REQUESTS = False
 URL_PROPERTIES_LIST = "https://hotels4.p.rapidapi.com/properties/list"
 URL_SEARCH_LOCATIONS = "https://hotels4.p.rapidapi.com/locations/v2/search"
 URL_GET_HOTEL_PHOTOS = "https://hotels4.p.rapidapi.com/properties/get-hotel-photos"
-TIMEOUT_RAPID = 3
+TIMEOUT_RAPID = 15
 
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
