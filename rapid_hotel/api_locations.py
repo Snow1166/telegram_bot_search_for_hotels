@@ -17,6 +17,10 @@ def request_location(message: str, user_id: str) -> dict | None:
     :param user_id: user id for logging
     :return: returns a dictionary of locations.
     """
+    if config.DEBUG:
+        with open('locations.json', 'r', encoding='utf-8') as file:
+            locations_list = json.load(file)
+        return locations_list
     try:
         querystring = {"query": {message}, "locale": "ru_RU", "currency": "rub"}
         logger.info(f'User "{user_id}" requests locations with parameters "{querystring}"')
@@ -27,6 +31,9 @@ def request_location(message: str, user_id: str) -> dict | None:
         logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
         if func.check_status_code(answer.status_code):
             locations = json.loads(answer.text)
+            if config.DEBUG_SAVE_REQUESTS:
+                with open('locations.json', 'w', encoding='utf-8') as file:
+                    json.dump(locations, file, ensure_ascii=False, indent=4)
             return locations
         raise ConnectionError(f'Connection Error {answer.status_code}')
     except (requests.exceptions.ReadTimeout,

@@ -16,6 +16,10 @@ def api_request_hotels(querystring: dict, user_id: str) -> dict | None:
     :param user_id: user id for logging
     :return: json hotels
     """
+    if config.DEBUG:
+        with open('hotel_list.json', 'r', encoding='utf-8') as file:
+            hotel_list = json.load(file)
+        return hotel_list
     try:
         logger.info(f'User "{user_id}" request a list of hotels with parameters {querystring}')
         answer = requests.get(config.URL_PROPERTIES_LIST,
@@ -25,6 +29,9 @@ def api_request_hotels(querystring: dict, user_id: str) -> dict | None:
         logger.info(f'User "{user_id}" requests status code: {answer.status_code}')
         if func.check_status_code(answer.status_code):
             hotel_list = json.loads(answer.text)
+            if config.DEBUG_SAVE_REQUESTS:
+                with open('hotel_list.json', 'w', encoding='utf-8') as file:
+                    json.dump(hotel_list, file, ensure_ascii=False, indent=4)
             return hotel_list
         raise ConnectionError(f'Connection Error {answer.status_code}')
     except (requests.exceptions.ReadTimeout,

@@ -28,6 +28,9 @@ def request_photo(id_hotel: int, user_id: str) -> dict | None:
         logger.info(f'User "{user_id}" requests list photos for a hotel with id "{id_hotel}"')
         if func.check_status_code(answer.status_code):
             photo_list = json.loads(answer.text)
+            if config.DEBUG_SAVE_REQUESTS:
+                with open('photo_list.json', 'w', encoding='utf-8') as file:
+                    json.dump(photo_list, file, ensure_ascii=False, indent=4)
             return photo_list
         raise ConnectionError(f'Connection Error {answer.status_code}')
     except (requests.exceptions.ReadTimeout,
