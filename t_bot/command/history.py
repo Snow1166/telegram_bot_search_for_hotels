@@ -16,6 +16,7 @@ def send_history(message: Message) -> None:
     and sends the user a history of his requests.
     :param message: user's message
     """
+    logger.info(f'User "{message.chat.id}" Requesting history from the database')
     history = get_request_db(message.chat.id)
     answer_button = after_search()
     if history:
