@@ -1,10 +1,12 @@
-from config import bot, sticker
+"""Handlers"""
+from loguru import logger
+from telebot.types import Message
+
+from config import bot, STICKER_WAIT
+from database.users import User
 from database.state import StateUser
 from t_bot.keyboard_markup.inline_keyboard import city_markup, hotel_choice, button_cancel_ready
-from loguru import logger
 from t_bot.utilities import func
-from database.users import User
-from telebot.types import Message
 
 
 @logger.catch()
@@ -26,7 +28,7 @@ def get_search_city(message: Message) -> None:
                          'В Лондоне? '
                          'https://www.youtube.com/watch?v=3-TMbwk7FvI')
     if func.city_correct(message.text):
-        user.last_message_bot = bot.send_sticker(message.chat.id, sticker)
+        user.last_message_bot = bot.send_sticker(message.chat.id, STICKER_WAIT)
         button = city_markup(message.text, message.chat.id)
         bot.delete_message(message.chat.id, user.last_message_bot.message_id)
         if button:
@@ -34,7 +36,8 @@ def get_search_city(message: Message) -> None:
             bot.set_state(message.from_user.id,
                           StateUser.checkin,
                           message.chat.id)
-            logger.info(f'User "{message.chat.id}" entered the city of "{message.text} "for the search')
+            logger.info(f'''
+                User "{message.chat.id}" entered the city of "{message.text} "for the search''')
             bot.send_message(message.from_user.id,
                              'Пожалуйста, уточните местонахождение:',
                              reply_markup=button)
@@ -79,7 +82,8 @@ def get_min_max_price(message: Message) -> None:
         price_min, price_max = message.text.split()
         user.price_min = price_min
         user.price_max = price_max
-        logger.info(f'User "{message.chat.id}" entered the min price "{price_min}" & max price "{price_max}"')
+        logger.info(f'''User "{message.chat.id}" entered the
+                        min price "{price_min}" & max price "{price_max}"''')
         bot.set_state(message.from_user.id,
                       StateUser.distance,
                       message.chat.id)
@@ -98,7 +102,7 @@ def get_min_max_price(message: Message) -> None:
 
 @logger.catch()
 @bot.message_handler(state=StateUser.distance)
-def get_max_distance(message: Message)-> None:
+def get_max_distance(message: Message) -> None:
     """
     Receives a message from the user in the distance state.
     Saves the distance and asks the user for the number of hotels.

@@ -1,3 +1,4 @@
+"""Main"""
 import loader
 from config import bot
 

@@ -1,4 +1,5 @@
-from config import alphabet
+"""Functional tools module"""
+from config import ALPHABET
 from database.users import User
 
 
@@ -38,7 +39,8 @@ def get_unformatted_rating(hotel: dict) -> dict:
     :param hotel: dict
     :return: dict
     """
-    return {"unformattedRating": hotel.get('guestReviews', {}).get('unformattedRating', 'Рейтинг не указан.')}
+    return {"unformattedRating":
+                hotel.get('guestReviews', {}).get('unformattedRating', 'Рейтинг не указан.')}
 
 
 def get_landmarks(hotel: dict) -> dict:
@@ -47,7 +49,8 @@ def get_landmarks(hotel: dict) -> dict:
     :param hotel: dict
     :return: dict
     """
-    return {"landmarks": hotel.get('landmarks', {})[0].get('distance', 'Дистанция до центра не указана.')}
+    return {"landmarks":
+                hotel.get('landmarks', {})[0].get('distance', 'Дистанция до центра не указана.')}
 
 
 def get_price(hotel: dict) -> dict:
@@ -70,7 +73,8 @@ def get_total_price(hotel: dict, total_day: int) -> dict:
     :return: dict
     """
     try:
-        return {"total_price": f"{int(hotel['ratePlan']['price']['exactCurrent'] * total_day):,} руб."}
+        return {"total_price":
+                    f"{int(hotel['ratePlan']['price']['exactCurrent'] * total_day):,} руб."}
     except KeyError:
         return {"total_price": "Уточняйте цену на сайте."}
 
@@ -122,7 +126,7 @@ def city_correct(name_city: str) -> bool:
     :param name_city: str
     :return: bool
     """
-    return all(sym in alphabet for sym in name_city.lower())
+    return all(sym in ALPHABET for sym in name_city.lower())
 
 
 def price_correct(min_max_price: str) -> bool:
@@ -160,3 +164,15 @@ def check_distance(user_id: str, hotel: dict) -> bool:
     dist = hotel.get('landmarks', [{}])[0].get('distance')
     if float(user.distance) >= float(dist.replace(',', '.').split()[0]):
         return True
+    return False
+
+
+def check_status_code(status_code: str) -> bool:
+    """
+    Checks the response status
+    :param status_code: str
+    :return: bool
+    """
+    if status_code == 200:
+        return True
+    return False

@@ -1,5 +1,7 @@
-from database.db_models import db, UserRequest
+"""Functions for working with the database"""
 import json
+
+from database.db_models import db, UserRequest
 
 
 def add_request_db(id_user: str, command: str, name_city: str, hotel_list: json) -> None:
@@ -20,15 +22,16 @@ def add_request_db(id_user: str, command: str, name_city: str, hotel_list: json)
                            )
 
 
-def get_request_db(user: str) -> list:
+def get_request_db(user) -> list:
     """
     The function returns the user's search history from the database.
     :param user: accepts user id
     :return: returns a list with query history dictionaries
     """
     with db:
-        history_list = list()
-        for data in UserRequest.select().where(UserRequest.id_user == user):
+        history_list = []
+        user_history = UserRequest.select().where(UserRequest.id_user == user)
+        for data in user_history:
             request = ({'data': data.created_date,
                         'command': data.command,
                         'city': data.name_city,

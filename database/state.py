@@ -1,3 +1,4 @@
+"""Creating a class for a State machine"""
 from telebot.handler_backends import State, StatesGroup
 
 

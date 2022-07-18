@@ -1,6 +1,8 @@
-from config import bot
+"""Team history"""
 from loguru import logger
 from telebot.types import Message
+
+from config import bot
 from database.db_func import get_request_db
 from t_bot.utilities import func
 from t_bot.keyboard_markup.inline_keyboard import after_search
@@ -14,6 +16,7 @@ def send_history(message: Message) -> None:
     and sends the user a history of his requests.
     :param message: user's message
     """
+    logger.info(f'User "{message.chat.id}" Requesting history from the database')
     history = get_request_db(message.chat.id)
     answer_button = after_search()
     if history:
@@ -47,4 +50,3 @@ def unknown_command(message: Message) -> None:
     bot.send_message(message.chat.id, """
 Извините, я вас не понимаю.
 Нажмите /help для получения списка команд""")
-

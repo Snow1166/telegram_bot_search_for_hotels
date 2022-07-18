@@ -1,17 +1,19 @@
+"""Hotel search team"""
 import json
 
-from t_bot.keyboard_markup.inline_keyboard import button_cancel_ready
-from database.state import StateUser
+from loguru import logger
+from telebot import types
+from telebot.types import Message
+
+from config import bot
 from t_bot.utilities import func
+from t_bot.keyboard_markup.inline_keyboard import button_cancel_ready
+from t_bot.keyboard_markup.inline_keyboard import after_search
 from rapid_hotel.api_hotel_list import api_get_hotels_list
 from rapid_hotel.api_photo_hotel import add_photo
-from telebot import types
-from loader import bot
-from loguru import logger
-from t_bot.keyboard_markup.inline_keyboard import after_search
+from database.state import StateUser
 from database.users import User
 from database.db_func import add_request_db
-from telebot.types import Message
 
 
 @logger.catch()
@@ -36,7 +38,11 @@ def hotel_search(message: Message) -> None:
 
 
 @logger.catch()
-def get_final_hotel_list(querystring: dict, total_hotels: int, total_photo: int, total_day: int, user_id: str) -> dict:
+def get_final_hotel_list(querystring: dict,
+                         total_hotels: int,
+                         total_photo: int,
+                         total_day: int,
+                         user_id: str) -> dict:
     """
     Calls a function with a request from the dictionary api with hotels,
 generates a final list of hotels for the user and adds photos.
@@ -47,7 +53,7 @@ generates a final list of hotels for the user and adds photos.
     :param user_id: user id
     """
     hotel_list = api_get_hotels_list(querystring, user_id)
-    ready_list_hotels = dict()
+    ready_list_hotels = {}
     logger.info(f'User "{user_id}" creating a final list of hotels')
     if hotel_list:
         for hotel in hotel_list.values():
@@ -88,8 +94,9 @@ def send_hotels_list_for_user(user_id) -> None:
     answer_button = after_search()
     bot.delete_message(user_id, user.last_message_bot.message_id)
     if hotel_list:
-        logger.info(f'User "{user_id}" sending a list of hotels to the user')
+        logger.info(f'User "{user_id}" Adding a list of hotels to the database')
         add_request_db(user_id, user.command, user.city_search, json.dumps(hotel_list))
+        logger.info(f'User "{user_id}" sending a list of hotels to the user')
         for hotel in hotel_list.values():
             bot.send_message(user_id, func.format_message_for_user(hotel, total_day),
                              disable_web_page_preview=True)

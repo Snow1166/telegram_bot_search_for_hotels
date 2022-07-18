@@ -1,12 +1,16 @@
-from config import bot, command_list, sticker
-from database.state import StateUser
-from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice, photo_bool_choice, button_cancel_ready
-from t_bot.command.hotel_search import send_hotels_list_for_user
-from telegram_bot_calendar import DetailedTelegramCalendar
+"""Callback Module"""
 from datetime import date, timedelta
+
 from loguru import logger
-from database.users import User
+from telegram_bot_calendar import DetailedTelegramCalendar
 from telebot.types import CallbackQuery
+
+from config import bot, COMMAND_LIST, STICKER_WAIT
+from database.users import User
+from database.state import StateUser
+from t_bot.keyboard_markup.inline_keyboard import hotel_choice, photo_choice
+from t_bot.keyboard_markup.inline_keyboard import photo_bool_choice, button_cancel_ready
+from t_bot.command.hotel_search import send_hotels_list_for_user
 
 
 @logger.catch()
@@ -80,9 +84,10 @@ def set_checkout(call: CallbackQuery) -> None:
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call: CallbackQuery) -> None:
     """
-    Receives all callback calls, determines the type of received data at the beginning of the line.
-    Records data. Requests additional data from the user.
-    If all the data is received, it calls the function to send the search and send the result to the user.
+    Receives all callback calls, determines the type of received data
+    at the beginning of the line. Records data. Requests additional data from the user.
+    If all the data is received, it calls the function
+    to send the search and send the result to the user.
     :param call:
     """
     user = User.get_user(call.from_user.id)
@@ -121,7 +126,7 @@ def callback_inline(call: CallbackQuery) -> None:
                                   message_id=call.message.message_id,
                                   text="Подождите, ищем подходящие предложения...",
                                   reply_markup=None)
-            user.last_message_bot = bot.send_sticker(call.message.chat.id, sticker)
+            user.last_message_bot = bot.send_sticker(call.message.chat.id, STICKER_WAIT)
             send_hotels_list_for_user(call.from_user.id)
         elif photos_bool == 'yes':
             button = photo_choice(call.from_user.id)
@@ -140,7 +145,7 @@ def callback_inline(call: CallbackQuery) -> None:
                               message_id=call.message.message_id,
                               text="Подождите, ищем походящие предложения...",
                               reply_markup=None)
-        user.last_message_bot = bot.send_sticker(call.message.chat.id, sticker)
+        user.last_message_bot = bot.send_sticker(call.message.chat.id, STICKER_WAIT)
         send_hotels_list_for_user(call.from_user.id)
 
     elif call.data.startswith('cancel'):
@@ -149,7 +154,7 @@ def callback_inline(call: CallbackQuery) -> None:
         bot.answer_callback_query(callback_query_id=call.id)
         bot.edit_message_text(chat_id=call.message.chat.id,
                               message_id=call.message.message_id,
-                              text=command_list,
+                              text=COMMAND_LIST,
                               reply_markup=None)
 
     elif call.data.startswith('end'):
